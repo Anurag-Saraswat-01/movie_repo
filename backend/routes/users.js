@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+import { register, login } from "../controllers/userControllers.mjs";
+export const router = Router();
 
-router.post("/register", (req, res) => {
-  console.log(req.body);
-});
+// route for registering new user
+router.post("/register", register);
 
-router.post("/login", (req, res) => {
-  console.log(req.body);
-});
+// route for loggin in existing user
+router.post("/login", login);
