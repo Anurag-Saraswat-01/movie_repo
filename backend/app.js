@@ -1,9 +1,17 @@
 import express from "express";
 import sql from "mssql";
+import cors from "cors";
 import { config } from "./config.js";
 import { router as userRoutes } from "./routes/users.js";
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:9000",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 sql.on("error", (error) => {
   console.log(error);
