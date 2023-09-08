@@ -21,6 +21,7 @@ import axios from 'axios';
 
 export default {
   name: "LoginPage",
+  inject: ['toggleLoggedIn', 'setUser'],
   data() {
     return {
       username: '',
@@ -35,6 +36,7 @@ export default {
         })
         console.log(res)
         alert(res.data.message)
+
         this.username = ''
         this.password = ''
       } catch (error) {
