@@ -2,7 +2,7 @@ insert into [dbo].[Users](username, [password])
 values ('anurag', '1234');
 
 select * from Users;
-delete from Users;
+delete from Users where username = 'anurag';
 
 create or alter proc usp_register_user @username nvarchar(20), @password nvarchar(60)
 as
