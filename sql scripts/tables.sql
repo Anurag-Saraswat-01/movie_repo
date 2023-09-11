@@ -7,8 +7,11 @@ director_name nvarchar(30) not null)
 CREATE TABLE Movies (
 movie_id int not null identity(1,1) primary key,
 movie_name nvarchar(50) not null,
-[year] int not null,
-image_path nvarchar(10),
+--[year] int not null,
+image_url nvarchar(200),
+release_date date,
+rated nvarchar(2),
+runtime int,
 director_id int not null foreign key references Directors(director_id))
 
 CREATE TABLE Users (

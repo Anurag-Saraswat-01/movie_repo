@@ -16,7 +16,7 @@ export const register = async (req, res) => {
       .request()
       .input("username", sql.NVarChar(20), username)
       .input("password", sql.NVarChar(60), hash)
-      .execute("usp_register_user");
+      .execute("usp_insert_user");
 
     console.dir(result);
     return res.status(201).json({ message: "Registered successfully" });
