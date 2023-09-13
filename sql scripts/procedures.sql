@@ -149,3 +149,13 @@ begin
 	where movie_id = @movie_id
 	and [user_id] = @user_id
 end;
+
+-- update user rating for movie
+create or alter proc usp_update_user_rating @movie_id int, @user_id int, @rating int
+as
+begin
+	update Ratings
+	set rating = @rating
+	where movie_id = @movie_id
+	and [user_id] = @user_id
+end;
