@@ -5,10 +5,7 @@
         <h5 class="q-ma-none">Add New {{ label }}</h5>
         <q-btn flat v-close-popup round dense icon="close" />
       </div>
-      <q-form
-        class="q-gutter-md flex column justify-center"
-        @submit.prevent="handleSubmit"
-      >
+      <q-form class="q-gutter-md flex column justify-center" @submit.prevent="handleSubmit">
         <q-input outlined v-model="value" :label="addValueMode" />
         <q-btn label="Add" type="submit" color="primary" class="q-mx-auto" />
       </q-form>
@@ -17,7 +14,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "AddDialog",
@@ -38,15 +34,14 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        let result = await axios.post(
-          `http://localhost:3000/movies/add${this.label}`,
-          {
-            [`${this.label.toLowerCase()}_name`]: this.value,
-          }
-        );
+        const url = `${this.label.toLowerCase()}s`
+        const label = `${this.label.toLowerCase()}_name`
+
+        let result = await this.$api.post(url, { [label]: this.value, });
         console.log(result.data);
         this.newID = result.data;
-        this.$emit("valueAdded", newID);
+        this.$emit("valueAdded", this.newID);
+        this.show = false;
       } catch (error) {
         console.error(error);
       }

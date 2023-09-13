@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "LoginPage",
@@ -30,7 +29,7 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const res = await axios.post("http://localhost:3000/user/login", {
+        const res = await this.$api.post("user/login", {
           username: this.username,
           password: this.password,
         });

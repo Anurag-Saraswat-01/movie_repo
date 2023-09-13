@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "SignupPage",
@@ -29,7 +28,7 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const res = await axios.post("http://localhost:3000/user/register", {
+        const res = await this.$api.post("user/register", {
           username: this.username,
           password: this.password,
         });
