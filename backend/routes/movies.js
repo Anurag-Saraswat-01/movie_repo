@@ -1,24 +1,31 @@
 import { Router } from "express";
+import multer from "multer";
 import {
-  addNewDirector,
-  addNewGenre,
   addNewMovie,
-  getDirectors,
-  getGenres,
+  addRating,
+  getAllMovieData,
+  getSingleMovieData,
+  getUserRating,
+  updateUserRating,
 } from "../controllers/movieController.mjs";
+
 export const router = Router();
+const upload = multer();
 
-// route for getting all directors
-router.get("/directors", getDirectors);
+// route for getting all movie data
+router.get("/", getAllMovieData);
 
-// route for getting all genres
-router.get("/genres", getGenres);
+// route for getting single movie data
+router.get("/:movie_id", getSingleMovieData);
 
 // route for adding new movie
-router.post("/addMovie", addNewMovie);
+router.post("/", upload.single("poster"), addNewMovie);
 
-// route for adding new director
-router.post("/addDirector", addNewDirector);
+// route for getting user rating
+router.get("/rating/:movie_id&:user_id", getUserRating);
 
-// route for adding new genre
-router.post("/addGenre", addNewGenre);
+// route for updating user rating
+router.put("/rating/:movie_id&:user_id", updateUserRating);
+
+// route for adding new rating to a movie
+router.post("/rating", addRating);

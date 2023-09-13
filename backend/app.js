@@ -4,6 +4,8 @@ import cors from "cors";
 import { config } from "./config.js";
 import { router as userRoutes } from "./routes/users.js";
 import { router as movieRoutes } from "./routes/movies.js";
+import { router as directorRoutes } from "./routes/directors.js";
+import { router as genreRoutes } from "./routes/genres.js";
 
 const app = express();
 
@@ -26,11 +28,14 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.use("/user", userRoutes);
 app.use("/movies", movieRoutes);
+app.use("/directors", directorRoutes);
+app.use("/genres", genreRoutes);
 
-(async () => {
+async function startApp() {
   try {
     let pool = await appPool.connect();
     app.locals.db = pool;
@@ -41,4 +46,6 @@ app.use("/movies", movieRoutes);
   } catch (error) {
     console.error("Error creating connection pool", error);
   }
-})();
+}
+
+startApp();

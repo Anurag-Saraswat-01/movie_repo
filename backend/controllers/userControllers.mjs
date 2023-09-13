@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 
 // to register new user
-export const register = async (req, res) => {
+export async function register(req, res) {
   const { username, password } = req.body;
 
   try {
@@ -24,10 +24,10 @@ export const register = async (req, res) => {
     console.error(error);
     return res.status(400).json({ message: "Something went wrong" });
   }
-};
+}
 
 // to login
-export const login = async (req, res) => {
+export async function login(req, res) {
   const { username, password } = req.body;
 
   try {
@@ -56,4 +56,4 @@ export const login = async (req, res) => {
     console.error(error);
     return res.status(400).json({ message: "Something went wrong" });
   }
-};
+}

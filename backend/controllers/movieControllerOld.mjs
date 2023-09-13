@@ -118,8 +118,7 @@ export const insertMovie = async (
   release_date,
   rated,
   runtime,
-  director_id,
-  image_url
+  director_id
 ) => {
   try {
     let result = await pool
@@ -210,7 +209,7 @@ export const downloadImage = async (imageUrl, movie_id) => {
     const imageRes = await axios.get(movie.Poster, { responseType: "stream" });
     // console.dir(imageRes.data.pipe);
     imageRes.data.pipe(
-      fs.createWriteStream(`../public/images/${movie_id}.png`)
+      fs.createWriteStream(`../public/images/${movie_id}.jpg`)
     );
     console.log("Image downloaded", { imageUrl });
   } catch (error) {
@@ -237,8 +236,7 @@ export const addNewMovie = async () => {
       movie.Released,
       movie.Rated,
       movie.Runtime,
-      director_id,
-      movie.Poster
+      director_id
     );
 
     // get new movie id
@@ -264,12 +262,11 @@ export const addNewMovie = async () => {
     console.log({ genreList, genreIDList });
 
     // insert movie-genre pairs into db
-    // await Promise.all(
-    // convert to for loop
-    genreIDList.forEach(async (genre_id) => {
+    for (let genre_id of genreIDList) {
       await insertMovieGenre(movie_id, genre_id);
-    });
-    // );
+    }
+
+    await downloadImage(movie.Poster, movie_id);
   } catch (error) {
     console.log(error);
   }
