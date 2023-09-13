@@ -20,11 +20,18 @@ select * from Movie_Genre
 
 delete from Movie_Genre
 delete from Movies
-delete from Directors
-delete from Genre
+delete from Directors where director_name = 'nolan'
+delete from Genre where genre_name = 'romance'
 
 alter table movies
-add image_url nvarchar(200);
---drop column imageUrl
+--alter column rated nvarchar(5)
+--add image_url nvarchar(200),
+--release_date date,
+--rated nvarchar(2),
+--runtime int
+drop column image_url
+--drop column year
 
-
+insert into Genre(genre_name)
+output inserted.genre_id
+values('Comedy')

@@ -10,7 +10,7 @@ movie_name nvarchar(50) not null,
 --[year] int not null,
 image_url nvarchar(200),
 release_date date,
-rated nvarchar(2),
+rated nvarchar(5),
 runtime int,
 director_id int not null foreign key references Directors(director_id))
 

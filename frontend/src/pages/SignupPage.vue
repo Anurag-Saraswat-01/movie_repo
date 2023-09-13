@@ -16,32 +16,32 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import axios from "axios";
 
 export default {
   name: "SignupPage",
   data() {
     return {
-      username: '',
-      password: ''
-    }
+      username: "",
+      password: "",
+    };
   },
   methods: {
     async handleSubmit() {
       try {
-        const res = await axios.post('http://localhost:3000/user/register', {
-          username: this.username, password: this.password
-        })
-        console.log(res)
-        alert(res.data.message)
-        this.username = ''
-        this.password = ''
+        const res = await axios.post("http://localhost:3000/user/register", {
+          username: this.username,
+          password: this.password,
+        });
+        console.log(res);
+        alert(res.data.message);
+        this.username = "";
+        this.password = "";
       } catch (error) {
-        console.error(error)
-        alert(error.response.data.message)
+        console.error(error);
+        alert(error.response.data.message);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

@@ -3,6 +3,7 @@ import sql from "mssql";
 import cors from "cors";
 import { config } from "./config.js";
 import { router as userRoutes } from "./routes/users.js";
+import { router as movieRoutes } from "./routes/movies.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
+app.use("/movies", movieRoutes);
 
 (async () => {
   try {

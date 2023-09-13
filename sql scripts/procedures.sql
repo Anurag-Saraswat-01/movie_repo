@@ -1,6 +1,7 @@
 -- USERS
 
 -- register new user
+
 create or alter proc usp_insert_user @username nvarchar(20), @password nvarchar(60)
 as
 begin
@@ -18,6 +19,13 @@ begin
 end;
 
 -- MOVIES
+
+-- get all directors
+create or alter proc usp_get_directors
+as
+begin
+	select * from directors
+end;
 
 -- get director id
 create or alter proc usp_get_director_id @director_name nvarchar(30), @director_id int out
@@ -37,6 +45,7 @@ create or alter proc usp_insert_director @director_name nvarchar(30)
 as
 begin
 	insert into Directors(director_name)
+	output inserted.director_id
 	values (@director_name)
 end;
 
@@ -51,11 +60,19 @@ end;
 
 -- insert new movie
 create or alter proc usp_insert_movie @movie_name nvarchar(50), @release_date nvarchar(12), 
-									  @rated nvarchar(2), @runtime int, @director_id int, @image_url nvarchar(200)
+									  @rated nvarchar(5), @runtime int, @director_id int
 as
 begin
-	insert into movies(movie_name, release_date, rated, runtime, director_id, image_url)
-	values(@movie_name, CAST(@release_date as date), @rated, @runtime, @director_id, @image_url)
+	insert into movies(movie_name, release_date, rated, runtime, director_id)
+	output inserted.movie_id
+	values(@movie_name, CAST(@release_date as date), @rated, @runtime, @director_id)
+end;
+
+-- get all genres
+create or alter proc usp_get_genres
+as
+begin
+	select * from Genre
 end;
 
 -- get genre id
@@ -72,6 +89,7 @@ create or alter proc usp_insert_genre @genre_name nvarchar(10)
 as
 begin
 	insert into Genre(genre_name)
+	output inserted.genre_id
 	values (@genre_name)
 end;
 

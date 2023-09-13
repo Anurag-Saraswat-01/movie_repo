@@ -16,34 +16,34 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import axios from "axios";
 
 export default {
   name: "LoginPage",
-  inject: ['toggleLoggedIn', 'setUser'],
+  inject: ["toggleLoggedIn", "setUser"],
   data() {
     return {
-      username: '',
-      password: ''
-    }
+      username: "",
+      password: "",
+    };
   },
   methods: {
     async handleSubmit() {
       try {
-        const res = await axios.post('http://localhost:3000/user/login', {
-          username: this.username, password: this.password
-        })
-        console.log(res)
-        alert(res.data.message)
+        const res = await axios.post("http://localhost:3000/user/login", {
+          username: this.username,
+          password: this.password,
+        });
+        console.log(res);
+        alert(res.data.message);
 
-        this.username = ''
-        this.password = ''
+        this.username = "";
+        this.password = "";
       } catch (error) {
-        console.error(error)
-        alert(error.response.data.message)
+        console.error(error);
+        alert(error.response.data.message);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
