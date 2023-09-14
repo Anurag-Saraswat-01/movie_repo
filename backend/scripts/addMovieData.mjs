@@ -2,6 +2,8 @@ import sql from "mssql";
 import fs from "fs";
 import axios from "axios";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const config = {
   user: "sa",
   password: "sa@12345678",
@@ -203,43 +205,43 @@ export const insertMovie = async (
 //   Response: "True",
 // };
 
-const movie = {
-  Title: "Titanic",
-  Year: "1997",
-  Rated: "PG-13",
-  Released: "19 Dec 1997",
-  Runtime: "194 min",
-  Genre: "Drama, Romance",
-  Director: "James Cameron",
-  Writer: "James Cameron",
-  Actors: "Leonardo DiCaprio, Kate Winslet, Billy Zane",
-  Plot: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-  Language: "English, Swedish, Italian, French",
-  Country: "United States, Mexico",
-  Awards: "Won 11 Oscars. 126 wins & 83 nominations total",
-  Poster:
-    "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-  Ratings: [
-    { Source: "Internet Movie Database", Value: "7.9/10" },
-    { Source: "Rotten Tomatoes", Value: "88%" },
-    { Source: "Metacritic", Value: "75/100" },
-  ],
-  Metascore: "75",
-  imdbRating: "7.9",
-  imdbVotes: "1,245,127",
-  imdbID: "tt0120338",
-  Type: "movie",
-  DVD: "01 Jun 2014",
-  BoxOffice: "$674,292,608",
-  Production: "N/A",
-  Website: "N/A",
-  Response: "True",
-};
+// const movie = {
+//   Title: "Titanic",
+//   Year: "1997",
+//   Rated: "PG-13",
+//   Released: "19 Dec 1997",
+//   Runtime: "194 min",
+//   Genre: "Drama, Romance",
+//   Director: "James Cameron",
+//   Writer: "James Cameron",
+//   Actors: "Leonardo DiCaprio, Kate Winslet, Billy Zane",
+//   Plot: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+//   Language: "English, Swedish, Italian, French",
+//   Country: "United States, Mexico",
+//   Awards: "Won 11 Oscars. 126 wins & 83 nominations total",
+//   Poster:
+//     "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
+//   Ratings: [
+//     { Source: "Internet Movie Database", Value: "7.9/10" },
+//     { Source: "Rotten Tomatoes", Value: "88%" },
+//     { Source: "Metacritic", Value: "75/100" },
+//   ],
+//   Metascore: "75",
+//   imdbRating: "7.9",
+//   imdbVotes: "1,245,127",
+//   imdbID: "tt0120338",
+//   Type: "movie",
+//   DVD: "01 Jun 2014",
+//   BoxOffice: "$674,292,608",
+//   Production: "N/A",
+//   Website: "N/A",
+//   Response: "True",
+// };
 
 // download image to static folder
 export const downloadImage = async (imageUrl, movie_id) => {
   try {
-    const imageRes = await axios.get(movie.Poster, { responseType: "stream" });
+    const imageRes = await axios.get(imageUrl, { responseType: "stream" });
     // console.dir(imageRes.data.pipe);
     imageRes.data.pipe(
       fs.createWriteStream(`../public/images/${movie_id}.jpg`)
@@ -252,7 +254,7 @@ export const downloadImage = async (imageUrl, movie_id) => {
 
 // export default async function addNewMovie() {}
 
-export const addNewMovie = async () => {
+export const addNewMovie = async (movie) => {
   try {
     // get director id from db
     let director_id = await getDirectorID(movie.Director);
@@ -305,4 +307,4 @@ export const addNewMovie = async () => {
   }
 };
 
-await addNewMovie();
+// await addNewMovie();

@@ -42,6 +42,12 @@ delete from Movies where movie_name = 'the shawshank redemption'
 delete from Directors where director_name = 'nolan'
 delete from Genre where genre_name = 'romance'
 
+delete from Movie_Genre
+delete from Movies
+delete from Directors
+delete from Genre
+
+
 alter table movies
 alter column rated nvarchar(5)
 --add image_url nvarchar(200),
