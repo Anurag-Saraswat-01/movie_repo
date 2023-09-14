@@ -7,6 +7,10 @@ const routes = [
       { path: "login", component: () => import("pages/LoginPage.vue") },
       { path: "signup", component: () => import("pages/SignupPage.vue") },
       { path: "add-movie", component: () => import("pages/AddMoviePage.vue") },
+      {
+        path: "movie/:id",
+        component: () => import("pages/MovieDetailsPage.vue"),
+      },
     ],
   },
 

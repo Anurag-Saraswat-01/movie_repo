@@ -13,11 +13,12 @@
 --inner join Movie_Genre mg
 --on m.movie_id = mg.movie_id
 
-select m.movie_id, m.movie_name, m.rated, m.runtime, d.director_name,
+select m.movie_id, m.movie_name, m.rated,  CAST(m.release_date as nvarchar) as release_date,
+	m.runtime, d.director_name,
 	(select ROUND(AVG(ISNULL(CAST(r.rating as float), 0)), 2)
 	from Ratings r
 	where r.movie_id = m.movie_id) as avg_rating,
-	'["' + STRING_AGG(g.genre_name, '"], ["') + '"]' as genres
+	STRING_AGG(g.genre_name, ', ') as genres
 from Movies m
 inner join Directors d
 on m.director_id = d.director_id
@@ -25,7 +26,7 @@ inner join Movie_Genre mg
 on m.movie_id = mg.movie_id
 inner join Genre g
 on g.genre_id = mg.genre_id
-group by m.movie_id, m.movie_name, m.rated, m.runtime, d.director_name
+group by m.movie_id, m.movie_name, m.rated, m.runtime, d.director_name, m.release_date
 
 print cast('24 Mar 1972' as date)
 

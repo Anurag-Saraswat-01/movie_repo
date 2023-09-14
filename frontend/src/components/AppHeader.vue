@@ -1,7 +1,11 @@
 <template>
   <q-header>
     <q-toolbar>
-      <q-toolbar-title>Movie Repo</q-toolbar-title>
+      <q-toolbar-title>
+        <q-btn flat to="/" label="Movie Repo" style="font-size: large" />
+      </q-toolbar-title>
+      <q-btn flat to="/" label="Dashboard" />
+      <q-btn flat to="/add-movie" label="Add Movie" />
       <q-btn flat to="/login" label="Login" />
       <q-btn flat to="/signup" label="Signup" />
     </q-toolbar>
@@ -10,6 +14,6 @@
 
 <script>
 export default {
-  name: "AppHeader"
-}
+  name: "AppHeader",
+};
 </script>

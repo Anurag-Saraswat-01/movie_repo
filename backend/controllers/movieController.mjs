@@ -142,7 +142,7 @@ async function addNewMovieGenre(req, movie_id, genre_id) {
 async function downloadPoster(file, movie_id) {
   try {
     console.log(file);
-    await fs.writeFile(`./static/images/${movie_id}.jpg`, file.buffer);
+    await fs.writeFile(`./public/images/${movie_id}.jpg`, file.buffer);
   } catch (error) {
     console.error(error);
   }
