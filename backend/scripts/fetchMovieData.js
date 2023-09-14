@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios
-  .get("http://www.omdbapi.com/?t=The Dark Knight&apikey=69c77d68")
+  .get("http://www.omdbapi.com/?t=Titanic&apikey=69c77d68")
   .then((res) => console.log(res.data))
   .catch((err) => console.log(err));
 
