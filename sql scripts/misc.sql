@@ -27,11 +27,11 @@ on m.movie_id = mg.movie_id
 inner join Genre g
 on g.genre_id = mg.genre_id
 group by m.movie_id, m.movie_name, m.rated, m.runtime, d.director_name, m.release_date
+select * from Users
 
 print cast('24 Mar 1972' as date)
 
 select * from Movies
-select * from Users
 select * from Directors
 select * from Genre
 select * from Movie_Genre
