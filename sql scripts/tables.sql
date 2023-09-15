@@ -8,7 +8,7 @@ CREATE TABLE Movies (
 movie_id int not null identity(1,1) primary key,
 movie_name nvarchar(50) not null,
 --[year] int not null,
-image_url nvarchar(200),
+file_path nvarchar(50),
 release_date date,
 rated nvarchar(5),
 runtime int,
