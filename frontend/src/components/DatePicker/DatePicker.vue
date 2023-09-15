@@ -26,13 +26,5 @@
 </template>
 
 <script>
-export default {
-  name: "DatePicker",
-  data() {
-    return {
-      date: "",
-    };
-  },
-  emits: ["dateChange"],
-};
+export { default } from "./DatePicker";
 </script>

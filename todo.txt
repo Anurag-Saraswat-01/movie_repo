@@ -1,11 +1,12 @@
-Add go back to dashboard btn.
+// Add go back to dashboard btn.
 Style everything.
-Rating everything.
+// Rating everything.
 split vue into vue, js and css
-replace image files from id with movie name
--> add file path column in db
-my account feature with my movies
--> add user id column to movie table
-Add Movie Form Validation & Add Reset Button
+// replace image files from id with movie name
+// -> add file path column in db
+// my account feature with my movies
+// -> add user id column to movie table
+// Add Movie Form Validation & Add Reset Button
 -> handle no poster sent
-Movie details page to Modal
+// Movie details page to Modal
+Sign Up / Log in validation and errors

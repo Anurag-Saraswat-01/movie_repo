@@ -1,14 +1,19 @@
 <template>
-  <div class="q-pa-xl">
+  <q-dialog v-model="show" @hide="$emit('hide')">
     <q-card v-if="movie" style="max-width: 720px; margin: 0 auto">
+      <q-card-section>
+        <q-btn flat v-close-popup round dense icon="close" />
+      </q-card-section>
       <q-card-section horizontal>
         <q-card-section class="col-4">
           <q-img class="rounded-borders" :src="url" :alt="movie.movie_name" />
         </q-card-section>
         <q-card-section class="col-8 q-pa-lg">
-          <h2 class="movie_title">
-            {{ movie.movie_name }}
-          </h2>
+          <div class="flex flex-row justify-between">
+            <h2 class="movie_title">
+              {{ movie.movie_name }}
+            </h2>
+          </div>
           <div class="flex flex-row justify-between">
             <h3 class="movie_subtitle">
               Directed by:
@@ -40,68 +45,38 @@
       </q-card-section>
       <q-separator />
       <q-card-actions>
-        <div class="q-pa-sm" style="margin: auto">
-          Rate this movie!
-          <q-rating
-            v-model="userRating"
-            color="orange"
-            size="sm"
-            icon="star_border"
-            icon-selected="star"
-            icon-half="star_half"
-          />
-        </div>
+        <template v-if="isLoggedIn">
+          <div
+            class="q-pa-sm flex flex-row q-gutter-sm items-center"
+            style="margin: auto"
+          >
+            <div v-if="isNewRating">Rate this movie!</div>
+            <div v-else>Your Rating</div>
+            <q-rating
+              v-model="userRating"
+              color="orange"
+              size="sm"
+              icon="star_border"
+              icon-selected="star"
+              icon-half="star_half"
+              @update:model-value="updateUserRating"
+            />
+          </div>
+        </template>
+        <template v-else>
+          <div>
+            <router-link to="/login">Log In</router-link> to rate this movie
+          </div>
+        </template>
       </q-card-actions>
     </q-card>
-  </div>
+  </q-dialog>
 </template>
 
 <script>
-export default {
-  name: "MovieDetailsPage",
-  data() {
-    return {
-      movie: null,
-      userRating: 0,
-    };
-  },
-  mounted() {
-    console.log(this.$route.params);
-    this.getMovieData();
-  },
-  computed: {
-    url() {
-      return `http://localhost:3000/images/${this.movie.movie_id}.jpg`;
-    },
-    genreList() {
-      console.log(this.movie.genres.split(", "));
-      return this.movie.genres.split(", ");
-    },
-  },
-  methods: {
-    async getMovieData() {
-      try {
-        let result = await this.$api.get(`/movies/${this.$route.params.id}`);
-        console.log(result);
-        this.movie = result.data[0];
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  },
-};
+export { default } from "./MovieDetailsDialog";
 </script>
 
 <style scope>
-.movie_title {
-  font-size: xx-large;
-  font-weight: 700;
-  margin: 0;
-}
-
-.movie_subtitle {
-  font-size: large;
-  font-weight: 600;
-  margin: 0;
-}
+@import "./MovieGrid.scss";
 </style>

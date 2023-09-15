@@ -6,6 +6,7 @@ import { router as userRoutes } from "./routes/users.js";
 import { router as movieRoutes } from "./routes/movies.js";
 import { router as directorRoutes } from "./routes/directors.js";
 import { router as genreRoutes } from "./routes/genres.js";
+import { router as ratingRoutes } from "./routes/ratings.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/user", userRoutes);
 app.use("/movies", movieRoutes);
 app.use("/directors", directorRoutes);
 app.use("/genres", genreRoutes);
+app.use("/ratings", ratingRoutes);
 
 async function startApp() {
   try {

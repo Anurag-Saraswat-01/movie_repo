@@ -6,12 +6,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const config = {
   user: "sa",
-  password: "sa@12345678",
-  server: "192.168.0.13",
-  port: 49753,
+  password: "root",
+  server: "DESKTOP-B3TDTS7",
   database: "movie_repo",
   options: {
-    encrypt: false,
+    encrypt: true,
     trustServerCertificate: true,
   },
 };
@@ -123,6 +122,7 @@ export const insertMovie = async (
   director_id
 ) => {
   try {
+    const filePath = generateFilePath(movie_name);
     let result = await pool
       .request()
       .input("movie_name", sql.NVarChar(50), movie_name)
@@ -130,7 +130,8 @@ export const insertMovie = async (
       .input("rated", sql.NVarChar(5), rated)
       .input("runtime", sql.Int, parseInt(runtime.split(" ")[0]))
       .input("director_id", sql.Int, director_id)
-      // .input("image_url", sql.NVarChar(200), image_url)
+      .input("file_path", sql.NVarChar(50), filePath)
+      .input("user_id", sql.Int, null)
       .execute("usp_insert_movie");
 
     console.log("Inserted movie", { movie_name });
@@ -139,112 +140,21 @@ export const insertMovie = async (
   }
 };
 
-// const movie = {
-//   Title: "The Godfather",
-//   Year: "1972",
-//   Rated: "R",
-//   Released: "24 Mar 1972",
-//   Runtime: "175 min",
-//   Genre: "Crime, Drama",
-//   Director: "Francis Ford Coppola",
-//   Writer: "Mario Puzo, Francis Ford Coppola",
-//   Actors: "Marlon Brando, Al Pacino, James Caan",
-//   Plot: "Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.",
-//   Language: "English, Italian, Latin",
-//   Country: "United States",
-//   Awards: "Won 3 Oscars. 30 wins & 31 nominations total",
-//   Poster:
-//     "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-//   Ratings: [
-//     { Source: "Internet Movie Database", Value: "9.2/10" },
-//     { Source: "Rotten Tomatoes", Value: "97%" },
-//     { Source: "Metacritic", Value: "100/100" },
-//   ],
-//   Metascore: "100",
-//   imdbRating: "9.2",
-//   imdbVotes: "1,945,639",
-//   imdbID: "tt0068646",
-//   Type: "movie",
-//   DVD: "01 Aug 2013",
-//   BoxOffice: "$136,381,073",
-//   Production: "N/A",
-//   Website: "N/A",
-//   Response: "True",
-// };
-
-// const movie = {
-//   Title: "The Shawshank Redemption",
-//   Year: "1994",
-//   Rated: "R",
-//   Released: "14 Oct 1994",
-//   Runtime: "142 min",
-//   Genre: "Drama",
-//   Director: "Frank Darabont",
-//   Writer: "Stephen King, Frank Darabont",
-//   Actors: "Tim Robbins, Morgan Freeman, Bob Gunton",
-//   Plot: "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
-//   Language: "English",
-//   Country: "United States",
-//   Awards: "Nominated for 7 Oscars. 21 wins & 42 nominations total",
-//   Poster:
-//     "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_SX300.jpg",
-//   Ratings: [
-//     { Source: "Internet Movie Database", Value: "9.3/10" },
-//     { Source: "Rotten Tomatoes", Value: "91%" },
-//     { Source: "Metacritic", Value: "82/100" },
-//   ],
-//   Metascore: "82",
-//   imdbRating: "9.3",
-//   imdbVotes: "2,790,043",
-//   imdbID: "tt0111161",
-//   Type: "movie",
-//   DVD: "15 Aug 2008",
-//   BoxOffice: "$28,767,189",
-//   Production: "N/A",
-//   Website: "N/A",
-//   Response: "True",
-// };
-
-// const movie = {
-//   Title: "Titanic",
-//   Year: "1997",
-//   Rated: "PG-13",
-//   Released: "19 Dec 1997",
-//   Runtime: "194 min",
-//   Genre: "Drama, Romance",
-//   Director: "James Cameron",
-//   Writer: "James Cameron",
-//   Actors: "Leonardo DiCaprio, Kate Winslet, Billy Zane",
-//   Plot: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-//   Language: "English, Swedish, Italian, French",
-//   Country: "United States, Mexico",
-//   Awards: "Won 11 Oscars. 126 wins & 83 nominations total",
-//   Poster:
-//     "https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg",
-//   Ratings: [
-//     { Source: "Internet Movie Database", Value: "7.9/10" },
-//     { Source: "Rotten Tomatoes", Value: "88%" },
-//     { Source: "Metacritic", Value: "75/100" },
-//   ],
-//   Metascore: "75",
-//   imdbRating: "7.9",
-//   imdbVotes: "1,245,127",
-//   imdbID: "tt0120338",
-//   Type: "movie",
-//   DVD: "01 Jun 2014",
-//   BoxOffice: "$674,292,608",
-//   Production: "N/A",
-//   Website: "N/A",
-//   Response: "True",
-// };
+const generateFilePath = (movie_name) => {
+  const filePath = movie_name
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, "_")
+    .toLowerCase();
+  return `images/${filePath}.jpg`;
+};
 
 // download image to static folder
-export const downloadImage = async (imageUrl, movie_id) => {
+export const downloadImage = async (imageUrl, movie_name) => {
   try {
     const imageRes = await axios.get(imageUrl, { responseType: "stream" });
     // console.dir(imageRes.data.pipe);
     imageRes.data.pipe(
-      fs.createWriteStream(`../public/images/${movie_id}.jpg`)
+      fs.createWriteStream(`../public/${generateFilePath(movie_name)}`)
     );
     console.log("Image downloaded", { imageUrl });
   } catch (error) {
@@ -301,7 +211,7 @@ export const addNewMovie = async (movie) => {
       await insertMovieGenre(movie_id, genre_id);
     }
 
-    await downloadImage(movie.Poster, movie_id);
+    await downloadImage(movie.Poster, movie.Title);
   } catch (error) {
     console.log(error);
   }

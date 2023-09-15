@@ -1,6 +1,5 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-
     <AppHeader />
     <q-page-container>
       <q-page>
@@ -11,11 +10,5 @@
 </template>
 
 <script>
-import AppHeader from 'src/components/AppHeader.vue';
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'MainLayout',
-  components: { AppHeader }
-})
+export { default } from "./MainLayout";
 </script>

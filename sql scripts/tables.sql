@@ -12,7 +12,8 @@ file_path nvarchar(50),
 release_date date,
 rated nvarchar(5),
 runtime int,
-director_id int not null foreign key references Directors(director_id))
+director_id int not null foreign key references Directors(director_id),
+[user_id] int foreign key references Users([user_id]))
 
 CREATE TABLE Users (
 [user_id] int not null identity(1,1) primary key,

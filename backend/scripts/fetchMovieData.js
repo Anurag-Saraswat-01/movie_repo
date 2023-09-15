@@ -14,23 +14,14 @@ const fetchData = async (movie_name) => {
   }
 };
 
-// fs.readFile("movies.txt", "utf-8", (err, data) => {
-//   if (err) {
-//     console.error(err);
-//     return;
-//   }
-//   console.log(data.split("\r\n"));
-// });
-
 const insertData = async () => {
   try {
-    const movies = await fs.readFile("movies_all.txt", "utf-8");
+    const movies = await fs.readFile("movies.txt", "utf-8");
     const movieList = movies.split("\r\n");
     // console.log(movieList);
 
     for (let movie of movieList) {
       const movie_name = movie.split(" (")[0];
-      // console.log(movie_name);
       const movie_obj = await fetchData(movie_name);
       console.log({ movie_obj });
       await addNewMovie(movie_obj);

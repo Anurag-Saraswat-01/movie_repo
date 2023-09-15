@@ -8,10 +8,10 @@ begin
 end;
 
 -- get password of user for login
-create or alter proc usp_get_password @username nvarchar(20), @password nvarchar(60) out
+create or alter proc usp_get_password @username nvarchar(20), @password nvarchar(60) out, @user_id int out
 as
 begin
-	select @password = [password]
+	select @password = [password], @user_id = [user_id]
 	from Users
 	where username = @username
 end;
@@ -52,12 +52,13 @@ end;
 
 -- insert new movie
 create or alter proc usp_insert_movie @movie_name nvarchar(50), @release_date nvarchar(12), 
-									  @rated nvarchar(5), @runtime int, @director_id int
+									  @rated nvarchar(5), @runtime int, @director_id int,
+									  @file_path nvarchar(50), @user_id int
 as
 begin
-	insert into movies(movie_name, release_date, rated, runtime, director_id)
+	insert into movies(movie_name, release_date, rated, runtime, director_id, file_path, [user_id])
 	output inserted.movie_id
-	values(@movie_name, CAST(@release_date as date), @rated, @runtime, @director_id)
+	values(@movie_name, CAST(@release_date as date), @rated, @runtime, @director_id, @file_path, @user_id)
 end;
 
 -- get all genres
@@ -106,7 +107,7 @@ create or alter proc usp_get_all_movie_data
 as
 begin
 	select m.movie_id, m.movie_name, m.rated, CAST(m.release_date as nvarchar) as release_date,
-		m.runtime, d.director_name,
+		m.runtime, m.file_path, d.director_name,
 		(select ROUND(AVG(ISNULL(CAST(r.rating as float), 0)), 2)
 		from Ratings r
 		where r.movie_id = m.movie_id) as avg_rating,
@@ -118,7 +119,28 @@ begin
 	on m.movie_id = mg.movie_id
 	inner join Genre g
 	on g.genre_id = mg.genre_id
-	group by m.movie_id, m.movie_name, m.rated, m.runtime, m.release_date, d.director_name
+	group by m.movie_id, m.movie_name, m.rated, m.runtime, m.release_date, d.director_name, m.file_path
+end;
+
+-- get all data of all movies by user
+create or alter proc usp_get_all_movie_data_by_user @user_id int
+as
+begin
+	select m.movie_id, m.movie_name, m.rated, CAST(m.release_date as nvarchar) as release_date,
+		m.runtime, m.file_path, d.director_name,
+		(select ROUND(AVG(ISNULL(CAST(r.rating as float), 0)), 2)
+		from Ratings r
+		where r.movie_id = m.movie_id) as avg_rating,
+		STRING_AGG(g.genre_name, ', ') as genres
+	from Movies m
+	inner join Directors d
+	on m.director_id = d.director_id
+	inner join Movie_Genre mg
+	on m.movie_id = mg.movie_id
+	inner join Genre g
+	on g.genre_id = mg.genre_id
+	where m.[user_id] = @user_id
+	group by m.movie_id, m.movie_name, m.rated, m.runtime, m.release_date, d.director_name, m.file_path
 end;
 
 -- get single movie data
@@ -126,7 +148,7 @@ create or alter proc usp_get_single_movie_data @movie_id int
 as
 begin
 	select m.movie_id, m.movie_name, m.rated,  CAST(m.release_date as nvarchar) as release_date,
-		m.runtime, d.director_name,
+		m.runtime, m.file_path, d.director_name,
 		(select ROUND(AVG(ISNULL(CAST(r.rating as float), 0)), 2)
 		from Ratings r
 		where r.movie_id = m.movie_id) as avg_rating,
@@ -139,7 +161,7 @@ begin
 	inner join Genre g
 	on g.genre_id = mg.genre_id
 	where m.movie_id = @movie_id
-	group by m.movie_id, m.movie_name, m.rated, m.runtime,m.release_date, d.director_name
+	group by m.movie_id, m.movie_name, m.rated, m.runtime,m.release_date, d.director_name, m.file_path
 end;
 
 -- get user rating for movie

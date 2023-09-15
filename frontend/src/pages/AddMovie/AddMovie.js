@@ -1,90 +1,9 @@
-<template>
-  <div>
-    <AddDialog
-      v-if="showAddDialog"
-      @show-closed="onShowClose"
-      :addValueMode="addValueMode"
-      :addValue="addValue"
-      @value-added="onValueAdded"
-    />
-
-    <h4 class="flex flex-center">Add Movie</h4>
-
-    <div class="flex flex-center">
-      <q-form
-        class="q-gutter-md flex column justify-center"
-        @submit.prevent="handleSubmit"
-      >
-        <!-- movie name -->
-        <q-input outlined v-model="movie_name" label="Movie Title" />
-        <!-- release date -->
-        <DatePicker @date-change="onDateChange" />
-        <!-- director -->
-        <q-select
-          outlined
-          single
-          use-input
-          input-debounce="0"
-          v-model="director"
-          :options="filteredDirectorOptions"
-          @filter="filterDirectors"
-          @new-value="createNewDirector"
-          label="Director"
-        />
-        <!-- genre -->
-        <q-select
-          outlined
-          multiple
-          use-input
-          use-chips
-          input-debounce="0"
-          v-model="genres"
-          :options="filteredGenreOptions"
-          @filter="filterGenres"
-          @new-value="createNewGenre"
-          label="Genres"
-        />
-        <!-- rated -->
-        <q-select
-          outlined
-          single
-          v-model="rated"
-          :options="ratedOptions"
-          label="Rating"
-        />
-        <!-- runtime -->
-        <q-input
-          outlined
-          v-model="runtime"
-          type="number"
-          label="Runtime (in minutes)"
-        />
-        <!-- image -->
-        <q-file
-          outlined
-          v-model="poster"
-          label="Movie Poster"
-          accept=".jpg, .png, image/*"
-          style="max-width: 300px"
-          clearable
-        >
-          <template v-slot:prepend>
-            <q-icon name="image" />
-          </template>
-        </q-file>
-        <!-- submit btn -->
-        <q-btn class="q-mx-auto" label="Submit" type="submit" color="primary" />
-      </q-form>
-    </div>
-  </div>
-</template>
-
-<script>
-import DatePicker from "src/components/DatePicker.vue";
-import AddDialog from "src/components/AddDialog.vue";
+import DatePicker from "src/components/DatePicker/DatePicker.vue";
+import AddDialog from "src/components/AddDialog/AddDialog.vue";
 
 export default {
-  name: "AddMoviePage",
+  name: "AddMovie",
+  inject: ["user"],
   data() {
     return {
       movie_name: "",
@@ -105,14 +24,27 @@ export default {
       addValue: null,
     };
   },
+  computed: {
+    disabled() {
+      let res =
+        this.movie_name === "" ||
+        this.director === null ||
+        this.release_date === "" ||
+        this.runtime === null ||
+        this.runtime === 0 ||
+        this.genres.length === 0;
+      console.log(res);
+      return res;
+    },
+  },
   mounted() {
     this.getDirectors();
     this.getGenres();
   },
-  components: { DatePicker, AddDialog },
   methods: {
     // update date got from date picker
     onDateChange(date) {
+      console.log(date);
       this.release_date = date;
     },
     // hide add dialog
@@ -128,6 +60,7 @@ export default {
         director_id: this.director && this.director.value,
         genre_id_list: this.genres && this.genres.map((genre) => genre.value),
         runtime: this.runtime,
+        user_id: user && user.user_id,
       };
 
       const formData = new FormData();
@@ -225,6 +158,19 @@ export default {
         this.genreOptions.push(genre);
       }
     },
+    handleReset() {
+      this.movie_name = "";
+      this.director_id = null;
+      this.release_date = "";
+      this.rated = null;
+      this.runtime = null;
+      this.genres = [];
+      this.director = null;
+      this.poster = null;
+      this.showAddDialog = false;
+      this.addValueMode = null;
+      this.addValue = null;
+    },
   },
+  components: { DatePicker, AddDialog },
 };
-</script>

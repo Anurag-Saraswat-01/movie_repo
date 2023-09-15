@@ -44,14 +44,18 @@ delete from Directors where director_name = 'nolan'
 delete from Genre where genre_name = 'romance'
 
 delete from Movie_Genre
+delete from Ratings
 delete from Movies
 delete from Directors
 delete from Genre
 
+use movie_repo
+
 
 alter table movies
-alter column rated nvarchar(5)
---add image_url nvarchar(200),
+add file_path nvarchar(200),
+[user_id] int foreign key references Users([user_id])
+--alter column rated nvarchar(50)
 --release_date date,
 --rated nvarchar(2),
 --runtime int

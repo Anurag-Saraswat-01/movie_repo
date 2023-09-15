@@ -3,31 +3,38 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   data() {
     return {
-      isLoggedin: false,
-      user: null
-    }
+      isLoggedIn: false,
+      user: null,
+    };
   },
-  methods: {
-    toggleLoggedIn() {
-      this.isLoggedin = !this.isLoggedin
-    },
-    setUser(user) {
-      this.user = user
+  mounted() {
+    const user = sessionStorage.getItem("movie_repo_user");
+    if (user) {
+      this.toggleLoggedIn();
+      this.setUser(JSON.parse(user));
     }
   },
   provide() {
     return {
-      isLoggedin: computed(() => this.isLoggedin),
+      isLoggedIn: computed(() => this.isLoggedIn),
       user: computed(() => this.user),
       toggleLoggedIn: this.toggleLoggedIn,
-      setUser: this.setUser
-    }
-  }
-})
+      setUser: this.setUser,
+    };
+  },
+  methods: {
+    toggleLoggedIn() {
+      this.isLoggedIn = !this.isLoggedIn;
+    },
+    setUser(user) {
+      this.user = user;
+    },
+  },
+});
 </script>

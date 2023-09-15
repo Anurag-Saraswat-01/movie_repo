@@ -1,18 +1,4 @@
-<template>
-  <div class="q-pa-lg">
-    <q-table
-      title="Movies"
-      :rows="movies"
-      :columns="columns"
-      row-key="movie-id"
-      :loading="loading"
-      @row-dblclick="onRowDblClick"
-    />
-  </div>
-</template>
-
-<script>
-import { defineComponent } from "vue";
+import MovieDetailsDialog from "./MovieDetailsDialog.vue";
 
 const columns = [
   {
@@ -71,31 +57,34 @@ const columns = [
   },
 ];
 
-export default defineComponent({
-  name: "IndexPage",
+export default {
+  name: "MovieGrid",
   data() {
     return {
-      movies: [],
       columns,
-      loading: true,
+      showDialog: false,
+      showMovieId: null,
     };
   },
-  mounted() {
-    this.getData();
+  props: {
+    movies: Array,
+    loading: Boolean,
+  },
+  computed: {
+    rows() {
+      return this.movies;
+    },
   },
   methods: {
-    async getData() {
-      try {
-        let result = await this.$api.get("movies");
-        this.movies = result.data;
-        this.loading = false;
-      } catch (error) {
-        console.error(error);
-      }
+    onRowClick(evt, row, index) {
+      // this.$router.push(`/movie/${row.movie_id}`);
+      this.showDialog = true;
+      this.showMovieId = row.movie_id;
     },
-    onRowDblClick(evt, row, index) {
-      this.$router.push(`/movie/${row.movie_id}`);
+    onHide() {
+      this.showDialog = false;
+      this.showMovieId = null;
     },
   },
-});
-</script>
+  components: { MovieDetailsDialog },
+};
