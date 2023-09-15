@@ -5,7 +5,14 @@ export default {
     return {
       username: "",
       password: "",
+      error: false,
+      errorMessage: "",
     };
+  },
+  computed: {
+    disabled() {
+      return this.username === "" || this.password === "";
+    },
   },
   methods: {
     async handleSubmit() {
@@ -26,7 +33,8 @@ export default {
         this.password = "";
       } catch (error) {
         console.error(error);
-        alert(error.response.data.message);
+        this.error = true;
+        this.errorMessage = error.response.data.message;
       }
     },
   },
