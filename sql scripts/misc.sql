@@ -31,6 +31,7 @@ select * from Users
 
 print cast('24 Mar 1972' as date)
 
+select * from Users
 select * from Movies
 select * from Directors
 select * from Genre
@@ -76,4 +77,8 @@ on mg.genre_id = g.genre_id
 inner join Movies m
 on m.movie_id = mg.movie_id
 group by m.movie_id
+
+update Movies
+set [user_id] = 2
+where movie_id in (39, 41, 42)
 

@@ -77,6 +77,6 @@
 export { default } from "./MovieDetailsDialog";
 </script>
 
-<style scope>
+<style scope lang="scss">
 @import "./MovieGrid.scss";
 </style>
