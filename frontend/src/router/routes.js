@@ -20,6 +20,10 @@ const routes = [
         path: "my-movies",
         component: () => import("pages/MyMovies/MyMovies.vue"),
       },
+      {
+        path: "logout",
+        component: () => import("pages/LogoutPage/LogoutPage.vue"),
+      },
     ],
   },
 

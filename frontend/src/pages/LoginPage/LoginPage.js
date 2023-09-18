@@ -5,7 +5,7 @@ export default {
     return {
       username: "",
       password: "",
-      error: false,
+      error: null,
       errorMessage: "",
     };
   },
@@ -31,6 +31,7 @@ export default {
 
         this.username = "";
         this.password = "";
+        this.error = false;
       } catch (error) {
         console.error(error);
         this.error = true;

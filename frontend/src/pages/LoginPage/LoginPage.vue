@@ -16,14 +16,14 @@
           outlined
           v-model="username"
           label="Username"
-          :rules="[(val) => !!val || 'Username is required']"
+          :rules="error === false || [(val) => !!val || 'Username is required']"
         />
         <q-input
           outlined
           v-model="password"
           label="Password"
           type="password"
-          :rules="[(val) => !!val || 'Password is required']"
+          :rules="error === false || [(val) => !!val || 'Password is required']"
         />
         <q-btn
           class="q-mx-auto"

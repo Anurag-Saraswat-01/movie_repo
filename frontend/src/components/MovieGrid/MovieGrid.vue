@@ -13,3 +13,7 @@
 <script>
 export { default } from "./MovieGrid";
 </script>
+
+<style>
+@import "./MovieGrid.scss";
+</style>
