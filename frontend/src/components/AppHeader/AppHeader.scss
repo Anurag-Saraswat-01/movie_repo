@@ -1,0 +1,15 @@
+@import "../../css/quasar.variables.scss";
+
+.header-toolbar {
+    background: $dark-page;
+    padding: 0.5rem 2rem;
+}
+
+.header-toolbar-title a, a:visited {
+    text-decoration: none ;
+    color: white;
+}
+
+.header-dropdown-list {
+    background: $dark-page;
+}

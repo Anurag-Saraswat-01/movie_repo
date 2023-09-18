@@ -1,11 +1,92 @@
-.movie_title {
-  font-size: xx-large;
-  font-weight: 700;
-  margin: 0;
+.movie-card {
+  width: 700px;
 }
 
-.movie_subtitle {
-  font-size: large;
-  font-weight: 600;
+.movie-card-text {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+}
+
+.movie-poster-container {
+  display: grid;
+  place-items: center;
+}
+
+.movie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.movie-header h2 {
+  font-size: 32px;
+  line-height: 32px;
   margin: 0;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.movie-subheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0;
+}
+
+.movie-subheader h2 {
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.movie-subheader p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.movie-details {
+  padding: 0;
+  font-size: 16px;
+}
+
+.movie-details h3 {
+  font-size: 16px;
+  line-height: 28px;
+  margin: 0;
+  display: inline;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.movie-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.movie-card-rater {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.movie-link,
+.movie-link:visited {
+  color: white;
+}
+
+.movie-link:hover {
+  color: $primary;
 }

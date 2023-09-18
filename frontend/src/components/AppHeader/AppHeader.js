@@ -6,7 +6,6 @@ export default {
       this.toggleLoggedIn();
       this.setUser(null);
       sessionStorage.removeItem("movie_repo_user");
-      this.$router.push("logout");
     },
   },
 };

@@ -1,21 +1,35 @@
 <template>
   <q-dialog v-model="show" @hide="$emit('showClosed')">
-    <div class="bg-white q-pa-md" style="width: 400px">
-      <div class="flex items-center justify-between q-my-md">
-        <h5 class="q-ma-none">Add New {{ label }}</h5>
+    <q-card dark flat bordered class="add-dialog">
+      <div class="add-dialog-header">
+        <h2>Add New {{ label }}</h2>
         <q-btn flat v-close-popup round dense icon="close" />
       </div>
-      <q-form
-        class="q-gutter-md flex column justify-center"
-        @submit.prevent="handleSubmit"
-      >
-        <q-input outlined v-model="value" :label="addValueMode" />
-        <q-btn label="Add" type="submit" color="primary" class="q-mx-auto" />
+      <q-form class="form" @submit.prevent="handleSubmit">
+        <q-input
+          class="form-input"
+          standout
+          color="primary"
+          dark
+          v-model="value"
+          :label="addValueMode"
+        />
+        <q-btn
+          outline
+          label="Add"
+          type="submit"
+          color="primary"
+          class="q-mx-auto"
+        />
       </q-form>
-    </div>
+    </q-card>
   </q-dialog>
 </template>
 
 <script>
 export { default } from "./AddDialog";
 </script>
+
+<style scoped lang="scss">
+@import "./AddDialog.scss";
+</style>

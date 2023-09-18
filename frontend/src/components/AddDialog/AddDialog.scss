@@ -1,0 +1,35 @@
+@import "../../css/quasar.variables.scss";
+
+.add-dialog {
+  //   width: 400px;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.add-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 320px;
+}
+
+.add-dialog-header h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.form-input {
+  width: 320px;
+}

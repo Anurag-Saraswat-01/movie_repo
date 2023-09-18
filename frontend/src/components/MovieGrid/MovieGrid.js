@@ -66,6 +66,7 @@ export default {
       showMovieId: null,
     };
   },
+  emits: ["rate"],
   props: {
     movies: Array,
     loading: Boolean,
@@ -76,7 +77,7 @@ export default {
     },
   },
   methods: {
-    onRowClick(evt, row, index) {
+    onRowClick(row) {
       // this.$router.push(`/movie/${row.movie_id}`);
       this.showDialog = true;
       this.showMovieId = row.movie_id;

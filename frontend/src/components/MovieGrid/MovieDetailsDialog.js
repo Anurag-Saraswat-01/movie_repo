@@ -12,7 +12,7 @@ export default {
   props: {
     id: Number,
   },
-  emits: ["hide"],
+  emits: ["hide", "rate"],
   async mounted() {
     console.log(this.id);
     await this.getMovieData();
@@ -71,8 +71,9 @@ export default {
           });
         }
 
-        console.log(result);
+        console.log(this.$emit);
         await this.getMovieData();
+        this.$emit("rate");
       } catch (error) {
         console.error(error);
       }

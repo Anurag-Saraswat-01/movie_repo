@@ -1,0 +1,22 @@
+@import "../../css/quasar.variables.scss";
+
+.logout-container {
+  width: fit-content;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+}
+
+.logout-header {
+  font-size: 32px;
+}
+
+.login-link,
+.login-link:visited {
+  color: white;
+  font-size: 24px;
+}
+
+.login-link:hover {
+  color: $primary;
+}

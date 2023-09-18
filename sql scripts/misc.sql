@@ -37,6 +37,7 @@ select * from Directors
 select * from Genre
 select * from Movie_Genre
 select * from Ratings
+order by movie_id
 
 delete from Movie_Genre where movie_id = (
 	select movie_id from Movies where movie_name = 'the shawshank redemption')
@@ -82,3 +83,8 @@ update Movies
 set [user_id] = 2
 where movie_id in (39, 41, 42)
 
+delete from users
+where user_id = 8
+
+delete from Ratings
+where rating_id in (28, 25, 26)

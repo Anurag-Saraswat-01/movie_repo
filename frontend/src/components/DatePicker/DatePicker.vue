@@ -1,6 +1,9 @@
 <template>
   <q-input
-    outlined
+    class="form-input"
+    standout
+    color="primary"
+    dark
     v-model="date"
     mask="date"
     fill-mask
@@ -11,6 +14,7 @@
       <q-icon name="event" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
           <q-date
+            dark
             v-model="date"
             today-btn
             @update:model-value="$emit('dateChange', date)"

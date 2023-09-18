@@ -1,13 +1,13 @@
 <template>
-  <q-header>
-    <q-toolbar>
-      <q-toolbar-title>
-        <q-btn flat to="/" label="Movie Repo" style="font-size: large" />
+  <q-header elevated>
+    <q-toolbar class="header-toolbar">
+      <q-toolbar-title class="header-toolbar-title">
+        <router-link to="/"> MOVIE REPO </router-link>
       </q-toolbar-title>
       <q-btn flat to="/" label="Dashboard" icon="home" />
       <template v-if="isLoggedIn">
         <q-btn-dropdown flat :label="user.username" icon="person">
-          <q-list>
+          <q-list dark class="header-dropdown-list">
             <q-item to="/my-movies">
               <q-item-section>
                 <q-item-label>My Movies</q-item-label>
@@ -24,7 +24,7 @@
                 <q-icon name="add" size="xs" />
               </q-item-section>
             </q-item>
-            <q-item clickable v-close-popup @click="logout">
+            <q-item to="/logout" @click="logout">
               <q-item-section>
                 <q-item-label>Logout</q-item-label>
               </q-item-section>
@@ -46,3 +46,7 @@
 <script>
 export { default } from "./AppHeader";
 </script>
+
+<style lang="scss" scoped>
+@import "./AppHeader.scss";
+</style>
