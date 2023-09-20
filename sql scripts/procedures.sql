@@ -1,3 +1,4 @@
+use movie_repo;
 
 -- register new user
 create or alter proc usp_insert_user @username nvarchar(20), @password nvarchar(60)

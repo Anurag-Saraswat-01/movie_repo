@@ -22,7 +22,7 @@ export async function register(req, res) {
     return res.status(201).json({ message: "Registered successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(400).json({ message: "Something went wrong" });
+    return res.status(400).json({ message: "User already exists" });
   }
 }
 

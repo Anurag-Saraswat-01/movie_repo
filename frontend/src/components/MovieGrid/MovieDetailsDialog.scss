@@ -66,6 +66,12 @@
   letter-spacing: 1px;
 }
 
+.movie-details .rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
 .movie-card-actions {
   display: flex;
   align-items: center;

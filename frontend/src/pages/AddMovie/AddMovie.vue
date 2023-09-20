@@ -46,7 +46,6 @@
         dark
         multiple
         use-input
-        use-chips
         input-debounce="0"
         v-model="genres"
         :options="filteredGenreOptions"

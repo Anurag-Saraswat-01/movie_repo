@@ -22,14 +22,14 @@
             </div>
           </q-card-section>
           <q-card-section class="movie-details">
-            <div>
+            <div class="rating">
               <h3>Average Rating:</h3>
               {{ movie.avg_rating || "No ratings yet" }}
               <q-rating
                 v-if="movie.avg_rating"
                 v-model="movie.avg_rating"
                 color="orange"
-                size="sm"
+                size="xs"
                 icon="star_border"
                 icon-selected="star"
                 icon-half="star_half"

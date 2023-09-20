@@ -1,7 +1,7 @@
 // Add go back to dashboard btn.
-Style everything.
+// Style everything.
 // Rating everything.
-split vue into vue, js and css
+// split vue into vue, js and css
 // replace image files from id with movie name
 // -> add file path column in db
 // my account feature with my movies
@@ -9,4 +9,9 @@ split vue into vue, js and css
 // Add Movie Form Validation & Add Reset Button
 -> handle no poster sent
 // Movie details page to Modal
-Sign Up / Log in validation and errors
+// Sign Up / Log in validation and errors
+Default number of rows in dashboard
+Make my movies editable
+Add movie button move
+Add movie fix dropdown stuff
+Error display on frontend for add movie
