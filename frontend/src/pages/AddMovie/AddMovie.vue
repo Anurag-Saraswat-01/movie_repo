@@ -8,7 +8,18 @@
   />
   <div class="form-container absolute-center">
     <h1 class="form-heading">Add Movie</h1>
-
+    <q-banner
+      class="form-banner"
+      :class="status === true ? 'success' : 'error'"
+      rounded
+      dense
+      v-if="status !== null"
+    >
+      <template v-slot:avatar>
+        <q-icon :name="status === true ? 'check' : 'error'" />
+        <div class="form-banner-message">{{ message }}</div>
+      </template>
+    </q-banner>
     <q-form class="form" @submit.prevent="handleSubmit" @reset="handleReset">
       <!-- movie name -->
       <q-input

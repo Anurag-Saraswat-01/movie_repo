@@ -184,3 +184,57 @@ begin
 	where movie_id = @movie_id
 	and [user_id] = @user_id
 end;
+
+-- update title of movie
+create or alter proc usp_update_movie_name @movie_id int, @movie_name nvarchar(50)
+as
+begin
+	update Movies
+	set movie_name = @movie_name
+	where movie_id = @movie_id
+end;
+
+-- update director of movie
+create or alter proc usp_update_movie_director @movie_id int, @director_id int
+as
+begin
+	update Movies
+	set director_id = @director_id
+	where movie_id = @movie_id
+end;
+
+-- update release date of movie
+create or alter proc usp_update_movie_release_date @movie_id int, @release_date nvarchar(12)
+as
+begin
+	update Movies
+	set release_date = CAST(@release_date as date)
+	where movie_id = @movie_id
+end;
+
+-- update rated of movie
+create or alter proc usp_update_movie_rated @movie_id int, @rated nvarchar(5)
+as
+begin
+	update Movies
+	set rated = @rated
+	where movie_id = @movie_id
+end;
+
+-- update runtime of movie
+create or alter proc usp_update_movie_runtime @movie_id int, @runtime int
+as
+begin
+	update Movies
+	set runtime = @runtime
+	where movie_id = @movie_id
+end;
+
+-- delete from movie genre
+create or alter proc usp_delete_movie_genre @movie_id int, @genre_id int
+as
+begin
+	delete from Movie_Genre
+	where movie_id = @movie_id
+	and genre_id = @genre_id
+end;

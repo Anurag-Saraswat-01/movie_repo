@@ -38,10 +38,21 @@
 .form-banner {
   width: 280px;
   background: transparent;
+}
+
+.form-banner-message {
+  margin: 0 1.5rem;
+}
+
+.form-banner.error {
   border: 2px solid $negative;
   color: $negative;
 }
 
+.form-banner.success {
+  border: 2px solid $positive;
+  color: $positive;
+}
 .form-link,
 .form-link:visited {
   color: white;

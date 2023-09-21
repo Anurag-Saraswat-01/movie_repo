@@ -7,11 +7,11 @@
 // my account feature with my movies
 // -> add user id column to movie table
 // Add Movie Form Validation & Add Reset Button
--> handle no poster sent
+// -> handle no poster sent
 // Movie details page to Modal
 // Sign Up / Log in validation and errors
-Default number of rows in dashboard
+// Default number of rows in dashboard
 Make my movies editable
-Add movie button move
-Add movie fix dropdown stuff
-Error display on frontend for add movie
+// Add movie button move
+// Add movie fix dropdown stuff
+// Error display on frontend for add movie

@@ -8,10 +8,8 @@ export default {
   props: {
     releaseDate: String,
   },
-  watch: {
-    releaseDate() {
-      this.date = this.releaseDate;
-    },
+  mounted() {
+    this.date = this.releaseDate;
   },
   emits: ["dateChange"],
 };

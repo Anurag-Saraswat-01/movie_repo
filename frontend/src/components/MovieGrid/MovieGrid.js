@@ -1,4 +1,5 @@
 import MovieDetailsDialog from "./MovieDetailsDialog.vue";
+import EditDialog from "../EditDialog/EditDialog.vue";
 
 const columns = [
   {
@@ -54,7 +55,7 @@ const columns = [
     field: "avg_rating",
     format: (val) => (val ? val + "⭐" : "No ratings yet"),
     sortable: true,
-    align: "center",
+    align: "right",
     headerStyle: "text-align: center",
   },
 ];
@@ -64,18 +65,29 @@ export default {
   data() {
     return {
       columns,
-      showDialog: false,
+      showDetailsDialog: false,
       showMovieId: null,
       filter: { director: null, year: null, genres: null },
       filteredDirectorOptions: [],
       filteredGenreOptions: [],
       filteredRows: [],
+      hoverStates: {
+        movie_name: null,
+        director_name: null,
+        release_date: null,
+        rated: null,
+        genres: null,
+      },
+      showEditDialog: false,
+      editColumn: "movie_name",
+      editValue: null,
     };
   },
   emits: ["rate"],
   props: {
     movies: Array,
     loading: Boolean,
+    myMovies: Boolean,
   },
   computed: {
     rows() {
@@ -103,12 +115,25 @@ export default {
     },
   },
   methods: {
-    onRowClick(evt, row, index) {
-      this.showDialog = true;
+    onRowClick(row) {
+      this.showDetailsDialog = true;
       this.showMovieId = row.movie_id;
     },
-    onHide() {
-      this.showDialog = false;
+    onEditClick(row, column) {
+      this.showEditDialog = true;
+      this.editColumn = column;
+      this.editValue = row[column];
+      this.showMovieId = row.movie_id;
+    },
+    onDetailsHide() {
+      this.showDetailsDialog = false;
+      this.showMovieId = null;
+    },
+    onEditHide() {
+      this.showEditDialog = false;
+      this.showDetailsDialog = false;
+      this.editColumn = null;
+      this.editValue = null;
       this.showMovieId = null;
     },
     filterDirectors(val, update, abort) {
@@ -150,5 +175,5 @@ export default {
       return filteredRows;
     },
   },
-  components: { MovieDetailsDialog },
+  components: { MovieDetailsDialog, EditDialog },
 };

@@ -22,6 +22,8 @@ export default {
       showAddDialog: false,
       addValueMode: null,
       addValue: null,
+      status: null,
+      message: null,
     };
   },
   computed: {
@@ -48,8 +50,15 @@ export default {
       this.release_date = date;
     },
     // hide add dialog
-    onShowClose() {
+    onShowClose(newID, label) {
       this.showAddDialog = false;
+      if (!newID) {
+        if (label === "Director") {
+          this.director = null;
+        } else if (label === "Genre") {
+          this.genres = [];
+        }
+      }
     },
     // submit movie data
     async handleSubmit() {
@@ -60,7 +69,7 @@ export default {
         director_id: this.director && this.director.value,
         genre_id_list: this.genres && this.genres.map((genre) => genre.value),
         runtime: this.runtime,
-        user_id: user && user.user_id,
+        user_id: this.user && this.user.user_id,
       };
 
       const formData = new FormData();
@@ -76,8 +85,12 @@ export default {
           },
         });
         console.log(result);
+        this.status = true;
+        this.message = result.data.message;
       } catch (error) {
         console.log(error);
+        this.status = true;
+        this.message = error.data.message;
       }
     },
     // filter director options based on input

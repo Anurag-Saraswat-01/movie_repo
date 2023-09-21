@@ -88,3 +88,6 @@ where user_id = 8
 
 delete from Ratings
 where rating_id in (28, 25, 26)
+
+delete from Movies
+where movie_id >= 64

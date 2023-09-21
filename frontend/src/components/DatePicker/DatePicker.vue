@@ -1,4 +1,5 @@
 <template>
+  {{ date }}
   <q-input
     class="form-input"
     standout

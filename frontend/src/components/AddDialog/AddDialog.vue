@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="show" @hide="$emit('showClosed')">
+  <q-dialog v-model="show" @hide="$emit('showClosed', newID, label)">
     <q-card dark flat bordered class="add-dialog">
       <div class="add-dialog-header">
         <h2>Add New {{ label }}</h2>
