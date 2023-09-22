@@ -6,12 +6,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const config = {
   user: "sa",
-  password: "sa@12345678",
-  server: "192.168.0.13",
-  port: 49753,
+  password: "root",
+  server: "DESKTOP-B3TDTS7",
   database: "movie_repo",
   options: {
-    encrypt: false,
+    encrypt: true,
     trustServerCertificate: true,
   },
 };
@@ -60,7 +59,7 @@ export const getMovieID = async (movie_name) => {
   try {
     let result = await pool
       .request()
-      .input("movie_name", sql.NVarChar(50), movie_name)
+      .input("movie_name", sql.NVarChar(100), movie_name)
       .output("movie_id", sql.Int)
       .execute("usp_get_movie_id");
 
@@ -126,12 +125,12 @@ export const insertMovie = async (
     const filePath = generateFilePath(movie_name);
     let result = await pool
       .request()
-      .input("movie_name", sql.NVarChar(50), movie_name)
-      .input("release_date", sql.NVarChar(12), release_date)
+      .input("movie_name", sql.NVarChar(100), movie_name)
+      .input("release_date", sql.Date, release_date)
       .input("rated", sql.NVarChar(5), rated)
       .input("runtime", sql.Int, parseInt(runtime.split(" ")[0]))
       .input("director_id", sql.Int, director_id)
-      .input("file_path", sql.NVarChar(50), filePath)
+      .input("file_path", sql.NVarChar(100), filePath)
       .input("user_id", sql.Int, null)
       .execute("usp_insert_movie");
 

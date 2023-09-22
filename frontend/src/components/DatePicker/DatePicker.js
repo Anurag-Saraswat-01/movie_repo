@@ -11,5 +11,10 @@ export default {
   mounted() {
     this.date = this.releaseDate;
   },
+  // watch: {
+  //   releaseDate() {
+  //     this.date = this.releaseDate;
+  //   },
+  // },
   emits: ["dateChange"],
 };

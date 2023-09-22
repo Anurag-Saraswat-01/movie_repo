@@ -11,6 +11,7 @@
     :editColumn="editColumn"
     :editValue="editValue"
     @hide="onEditHide"
+    @update="$emit('update')"
   />
   <q-table
     dark

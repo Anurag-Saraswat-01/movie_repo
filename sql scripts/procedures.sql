@@ -43,7 +43,7 @@ begin
 end;
 
 -- get movie id
-create or alter proc usp_get_movie_id @movie_name nvarchar(50), @movie_id int out
+create or alter proc usp_get_movie_id @movie_name nvarchar(100), @movie_id int out
 as
 begin
 	select @movie_id = movie_id
@@ -52,14 +52,14 @@ begin
 end;
 
 -- insert new movie
-create or alter proc usp_insert_movie @movie_name nvarchar(50), @release_date nvarchar(12), 
+create or alter proc usp_insert_movie @movie_name nvarchar(100), @release_date date, 
 									  @rated nvarchar(5), @runtime int, @director_id int,
-									  @file_path nvarchar(50), @user_id int
+									  @file_path nvarchar(100), @user_id int
 as
 begin
 	insert into movies(movie_name, release_date, rated, runtime, director_id, file_path, [user_id])
 	output inserted.movie_id
-	values(@movie_name, CAST(@release_date as date), @rated, @runtime, @director_id, @file_path, @user_id)
+	values(@movie_name, @release_date, @rated, @runtime, @director_id, @file_path, @user_id)
 end;
 
 -- get all genres
@@ -183,51 +183,6 @@ begin
 	set rating = @rating
 	where movie_id = @movie_id
 	and [user_id] = @user_id
-end;
-
--- update title of movie
-create or alter proc usp_update_movie_name @movie_id int, @movie_name nvarchar(50)
-as
-begin
-	update Movies
-	set movie_name = @movie_name
-	where movie_id = @movie_id
-end;
-
--- update director of movie
-create or alter proc usp_update_movie_director @movie_id int, @director_id int
-as
-begin
-	update Movies
-	set director_id = @director_id
-	where movie_id = @movie_id
-end;
-
--- update release date of movie
-create or alter proc usp_update_movie_release_date @movie_id int, @release_date nvarchar(12)
-as
-begin
-	update Movies
-	set release_date = CAST(@release_date as date)
-	where movie_id = @movie_id
-end;
-
--- update rated of movie
-create or alter proc usp_update_movie_rated @movie_id int, @rated nvarchar(5)
-as
-begin
-	update Movies
-	set rated = @rated
-	where movie_id = @movie_id
-end;
-
--- update runtime of movie
-create or alter proc usp_update_movie_runtime @movie_id int, @runtime int
-as
-begin
-	update Movies
-	set runtime = @runtime
-	where movie_id = @movie_id
 end;
 
 -- delete from movie genre

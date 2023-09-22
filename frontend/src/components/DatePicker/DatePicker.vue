@@ -1,5 +1,4 @@
 <template>
-  {{ date }}
   <q-input
     class="form-input"
     standout
@@ -9,6 +8,7 @@
     mask="date"
     fill-mask
     :rules="['date']"
+    @update:model-value="$emit('dateChange', date)"
     label="Release Date"
   >
     <template v-slot:append>

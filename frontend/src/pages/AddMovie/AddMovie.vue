@@ -1,9 +1,9 @@
 <template>
   <AddDialog
     v-if="showAddDialog"
-    @show-closed="onShowClose"
     :addValueMode="addValueMode"
     :addValue="addValue"
+    @show-closed="onShowClose"
     @value-added="onValueAdded"
   />
   <div class="form-container absolute-center">

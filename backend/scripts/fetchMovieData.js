@@ -33,4 +33,4 @@ const insertData = async () => {
 
 // await insertData();
 
-console.log(await fetchData("Avengers Endgame"));
+console.log(await fetchData("Spider-man"));

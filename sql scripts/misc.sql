@@ -53,6 +53,12 @@ delete from Genre
 
 use movie_repo
 
+truncate table Movie_Genre
+truncate table Ratings
+truncate table Movies
+truncate table Directors
+truncate table Genre
+
 
 alter table movies
 add file_path nvarchar(200),
@@ -84,10 +90,14 @@ set [user_id] = 2
 where movie_id in (39, 41, 42)
 
 delete from users
-where user_id = 8
+where user_id >= 4
 
 delete from Ratings
 where rating_id in (28, 25, 26)
 
 delete from Movies
 where movie_id >= 64
+
+alter table movies
+--alter column movie_name nvarchar(100)
+alter column file_path nvarchar(100)

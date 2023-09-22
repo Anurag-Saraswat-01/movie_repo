@@ -1,18 +1,37 @@
 <template>
+  <AddDialog
+    v-if="showAddDialog"
+    :addValueMode="addValueMode"
+    :addValue="addValue"
+    @show-closed="onShowClose"
+    @value-added="onValueAdded"
+  />
   <q-dialog v-model="show" @hide="$emit('hide')">
     <q-card dark flat bordered class="edit-card">
-      {{ editColumn }}
-      {{ editValue }}
-      {{ value }}
       <q-form class="edit-form" @submit.prevent="handleSubmit">
         <!-- movie name -->
         <q-input
           v-if="editColumn === 'movie_name'"
+          class="edit-input"
           standout
           dark
-          class="edit-input"
           v-model="value"
           label="Title"
+        />
+        <!-- director -->
+        <q-select
+          v-if="editColumn === 'director_name'"
+          class="edit-input"
+          standout
+          dark
+          single
+          use-input
+          input-debounce="0"
+          v-model="value"
+          :options="filteredDirectorOptions"
+          @filter="filterDirectors"
+          @new-value="createNewDirector"
+          label="Director"
         />
         <!-- release date -->
         <DatePicker
@@ -20,15 +39,40 @@
           :release-date="value"
           @date-change="onDateChange"
         />
+        <!-- MPA Film Rating -->
+        <q-select
+          v-if="editColumn === 'rated'"
+          class="edit-input"
+          standout
+          dark
+          single
+          v-model="value"
+          :options="ratedOptions"
+          label="MPA Film Rating"
+        />
         <!-- runtime -->
         <q-input
           v-if="editColumn === 'runtime'"
+          class="edit-input"
           standout
           dark
-          class="edit-input"
           v-model="value"
           label="Runtime"
           type="number"
+        />
+        <q-select
+          v-if="editColumn === 'genres'"
+          class="edit-input"
+          standout
+          dark
+          multiple
+          use-input
+          input-debounce="0"
+          v-model="value"
+          :options="filteredGenreOptions"
+          @filter="filterGenres"
+          @new-value="createNewGenre"
+          label="Genres"
         />
         <q-btn
           outline

@@ -36,12 +36,12 @@ export async function addNewMovie(req, res) {
     const filePath = req.file ? generateFilePath(movie_name) : null;
     let result = await req.app.locals.db
       .request()
-      .input("movie_name", sql.NVarChar(50), movie_name)
-      .input("release_date", sql.NVarChar(12), release_date)
+      .input("movie_name", sql.NVarChar(100), movie_name)
+      .input("release_date", sql.Date, release_date)
       .input("rated", sql.NVarChar(5), rated)
       .input("runtime", sql.Int, runtime)
       .input("director_id", sql.Int, director_id)
-      .input("file_path", sql.NVarChar(50), filePath)
+      .input("file_path", sql.NVarChar(100), filePath)
       .input("user_id", sql.Int, user_id)
       .execute("usp_insert_movie");
 
@@ -104,93 +104,29 @@ async function addNewMovieGenre(req, movie_id, genre_id) {
   }
 }
 
-// update title of movie
-export async function updateMovieTitle(req, res) {
+// update movie details
+export async function updateMovie(req, res) {
   try {
-    const { movie_id, movie_name } = req.body;
+    const { movie_id, column } = req.params;
+    const { value } = req.body;
+
+    const columnFieldMap = {
+      movie_name: { col_name: "movie_name", data_type: sql.NVarChar(100) },
+      director_name: { col_name: "director_id", data_type: sql.Int },
+      release_date: { col_name: "release_date", data_type: sql.Date },
+      rated: { col_name: "rated", data_type: sql.NVarChar(5) },
+      runtime: { col_name: "runtime", data_type: sql.Int },
+    };
+
     let result = await req.app.locals.db
       .request()
       .input("movie_id", sql.Int, movie_id)
-      .input("movie_name", sql.NVarChar(50), movie_name)
-      .execute("usp_update_movie_name");
+      .input("value", columnFieldMap[column].data_type, value)
+      .query(
+        `UPDATE Movies SET ${columnFieldMap[column].col_name} = @value WHERE movie_id = @movie_id`
+      );
     console.log(result);
-    return res.status(200).json("Movie title updated successfully");
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json({ message: "Something went wrong" });
-  }
-}
-
-// update director of movie
-export async function updateMovieDirector(req, res) {
-  try {
-    const { movie_id, director_id } = req.body;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("director_id", sql.Int, director_id)
-      .execute("usp_update_movie_director");
-    console.log(result);
-    return res
-      .status(200)
-      .json({ message: "Movie director updated successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json({ message: "Something went wrong" });
-  }
-}
-
-// update release date of movie
-export async function updateMovieReleaseDate(req, res) {
-  try {
-    const { movie_id, release_date } = req.body;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("release_date", sql.NVarChar(12), release_date)
-      .execute("usp_update_movie_release_date");
-    console.log(result);
-    return res
-      .status(200)
-      .json({ message: "Movie release date updated successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json({ message: "Something went wrong" });
-  }
-}
-
-// update mpa film rating of movie
-export async function updatedMovieRated(req, res) {
-  try {
-    const { movie_id, rated } = req.body;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("rated", sql.NVarChar(5), rated)
-      .execute("usp_update_movie_rated");
-    console.log(result);
-    return res
-      .status(200)
-      .json({ message: "Movie rated updated successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(400).json({ message: "Something went wrong" });
-  }
-}
-
-// update movie runtime
-export async function updateMovieRuntime(req, res) {
-  try {
-    const { movie_id, runtime } = req.body;
-    let result = await req.locals.app.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("runtime", sql.Int, runtime)
-      .execute("usp_update_movie_runtime");
-    console.log(result);
-    return res
-      .status(200)
-      .json({ message: "Movie runtime updated successfully" });
+    res.status(200).json({ message: `${column} updated successfully` });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ message: "Something went wrong" });
@@ -215,13 +151,14 @@ async function deleteMovieGenre(req, movie_id, genre_id) {
 // update movie genre
 export async function updateMovieGenre(req, res) {
   try {
-    const { movie_id, del_genre_id_list, add_genre_id_list } = req.body;
+    const { movie_id } = req.params;
+    const { value } = req.body;
 
-    for (let genre_id of del_genre_id_list) {
+    for (let genre_id of value.del_genre_id_list) {
       await deleteMovieGenre(req, movie_id, genre_id);
     }
 
-    for (let genre_id of add_genre_id_list) {
+    for (let genre_id of value.add_genre_id_list) {
       await addNewMovieGenre(req, movie_id, genre_id);
     }
 

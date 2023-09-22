@@ -10,7 +10,7 @@ export default {
       director_id: null,
       release_date: "",
       rated: null,
-      runtime: null,
+      runtime: "",
       genres: [],
       director: null,
       poster: null,
@@ -28,14 +28,23 @@ export default {
   },
   computed: {
     disabled() {
+      // console.log({
+      //   movie_name: this.movie_name,
+      //   director: this.director,
+      //   release_date: this.release_date,
+      //   rated: this.rated,
+      //   runtime: this.runtime,
+      //   genres: this.genres,
+      //   genre_length: this.genres.length,
+      // });
       let res =
         this.movie_name === "" ||
         this.director === null ||
         this.release_date === "" ||
-        this.runtime === null ||
-        this.runtime === 0 ||
+        this.rated === null ||
+        this.runtime === "" ||
         this.genres.length === 0;
-      console.log(res);
+      console.log({ res });
       return res;
     },
   },
@@ -56,7 +65,7 @@ export default {
         if (label === "Director") {
           this.director = null;
         } else if (label === "Genre") {
-          this.genres = [];
+          this.genres = this.genres.slice(0, -1);
         }
       }
     },

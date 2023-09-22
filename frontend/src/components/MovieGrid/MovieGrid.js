@@ -33,6 +33,7 @@ const columns = [
     field: "rated",
     align: "center",
     headerStyle: "text-align: center",
+    sortable: true,
   },
   {
     name: "runtime",
@@ -48,6 +49,7 @@ const columns = [
     field: "genres",
     align: "left",
     headerStyle: "text-align: center",
+    sortable: true,
   },
   {
     name: "avg_rating",
@@ -83,7 +85,7 @@ export default {
       editValue: null,
     };
   },
-  emits: ["rate"],
+  emits: ["rate", "update"],
   props: {
     movies: Array,
     loading: Boolean,
