@@ -22,6 +22,7 @@ create or alter proc usp_get_directors
 as
 begin
 	select * from directors
+	order by director_name
 end;
 
 -- get director id
@@ -67,6 +68,7 @@ create or alter proc usp_get_genres
 as
 begin
 	select * from Genre
+	order by genre_name
 end;
 
 -- get genre id

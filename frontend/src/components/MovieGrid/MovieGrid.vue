@@ -53,6 +53,7 @@
           dark
           multiple
           use-input
+          use-chips
           clearable
           input-debounce="0"
           v-model="filter.genres"

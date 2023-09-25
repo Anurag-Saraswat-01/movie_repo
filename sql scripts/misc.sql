@@ -99,3 +99,10 @@ where movie_id >= 64
 alter table movies
 --alter column movie_name nvarchar(100)
 alter column file_path nvarchar(100)
+
+delete from directors where director_name in ('a', 'abc')
+
+select * from Movies
+select * from Directors
+select * from Movie_Genre
+select * from Ratings
