@@ -15,7 +15,7 @@
           class="edit-input"
           standout
           dark
-          v-model="value"
+          v-model="inputValue"
           label="Title"
         />
         <!-- director -->
@@ -27,7 +27,7 @@
           single
           use-input
           input-debounce="0"
-          v-model="value"
+          v-model="inputValue"
           :options="filteredDirectorOptions"
           @filter="filterDirectors"
           @new-value="createNewDirector"
@@ -36,7 +36,7 @@
         <!-- release date -->
         <DatePicker
           v-if="editColumn === 'release_date'"
-          :release-date="value"
+          :release-date="inputValue"
           @date-change="onDateChange"
         />
         <!-- MPA Film Rating -->
@@ -46,7 +46,7 @@
           standout
           dark
           single
-          v-model="value"
+          v-model="inputValue"
           :options="ratedOptions"
           label="MPA Film Rating"
         />
@@ -56,7 +56,7 @@
           class="edit-input"
           standout
           dark
-          v-model="value"
+          v-model="inputValue"
           label="Runtime"
           type="number"
         />
@@ -68,7 +68,7 @@
           multiple
           use-input
           input-debounce="0"
-          v-model="value"
+          v-model="inputValue"
           :options="filteredGenreOptions"
           @filter="filterGenres"
           @new-value="createNewGenre"

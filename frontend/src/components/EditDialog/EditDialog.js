@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       show: true,
-      value: null,
+      inputValue: null,
       genreOptions: [],
       directorOptions: [],
       filteredGenreOptions: [],
@@ -25,19 +25,19 @@ export default {
   emits: ["hide", "update"],
   async mounted() {
     if (this.editColumn === "release_date") {
-      this.value = this.editValue.replaceAll("-", "/");
+      this.inputValue = this.editValue.replaceAll("-", "/");
     } else if (this.editColumn === "genres") {
       await this.getGenres();
-      this.value = this.genreOptions.filter((g) =>
+      this.inputValue = this.genreOptions.filter((g) =>
         this.editValue.split(", ").includes(g.label)
       );
     } else if (this.editColumn === "director_name") {
       await this.getDirectors();
-      [this.value] = this.directorOptions.filter(
+      [this.inputValue] = this.directorOptions.filter(
         (d) => d.label === this.editValue
       );
     } else {
-      this.value = this.editValue;
+      this.inputValue = this.editValue;
     }
   },
   methods: {
@@ -50,7 +50,7 @@ export default {
           const oldGenreIDList = this.genreOptions
             .filter((g) => this.editValue.split(", ").includes(g.label))
             .map((g) => g.value);
-          const newGenreIDList = this.value.map((g) => g.value);
+          const newGenreIDList = this.inputValue.map((g) => g.value);
           value = {
             del_genre_id_list: oldGenreIDList.filter(
               (g) => !newGenreIDList.includes(g)
@@ -60,12 +60,12 @@ export default {
             ),
           };
         } else if (this.editColumn === "director_name") {
-          value = this.value.value;
+          value = this.inputValue.value;
         } else {
-          value = this.value;
+          value = this.inputValue;
         }
 
-        console.dir({ url, value });
+        // console.dir({ url, value });
         let result = await this.$api.put(url, { value });
         console.log(result);
         this.$emit("update");
@@ -96,7 +96,7 @@ export default {
     },
     onDateChange(date) {
       console.log(date);
-      this.value = date;
+      this.inputValue = date;
     },
     // filter director options based on input
     filterDirectors(val, update, abort) {
@@ -128,9 +128,9 @@ export default {
       this.showAddDialog = false;
       if (!newID) {
         if (label === "Director") {
-          this.value = null;
+          this.inputValue = null;
         } else if (label === "Genre") {
-          this.value = this.value.slice(0, -1);
+          this.inputValue = this.inputValue.slice(0, -1);
         }
       }
     },
@@ -156,12 +156,14 @@ export default {
 
       if (this.addValueMode === "Director") {
         console.log("adding new director");
-        this.value = { value: newID, label: this.addValue };
+        this.inputValue = { value: newID, label: this.addValue };
         this.directorOptions.push(this.director);
       } else if (this.addValueMode === "Genre") {
         console.log("adding new genre");
         let genre = { value: newID, label: this.addValue };
-        this.value = this.genres.map((g) => (g === this.addValue ? genre : g));
+        this.inputValue = this.genres.map((g) =>
+          g === this.addValue ? genre : g
+        );
         this.genreOptions.push(genre);
       }
     },

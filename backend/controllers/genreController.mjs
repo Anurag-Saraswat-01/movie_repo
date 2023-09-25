@@ -4,7 +4,7 @@ import sql from "mssql";
 export async function getGenres(req, res) {
   try {
     let result = await req.app.locals.db.request().execute("usp_get_genres");
-    console.log(result.recordset);
+    // console.log(result.recordset);
     let genres = result.recordset.map((res) => ({
       value: res.genre_id,
       label: res.genre_name,

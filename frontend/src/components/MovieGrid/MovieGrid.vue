@@ -17,7 +17,7 @@
     dark
     flat
     bordered
-    title="MOVIE DASHBOARD"
+    title="DASHBOARD"
     :rows="rows"
     :columns="columns"
     row-key="movie-id"

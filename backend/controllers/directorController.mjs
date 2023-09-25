@@ -4,7 +4,7 @@ import sql from "mssql";
 export async function getDirectors(req, res) {
   try {
     let result = await req.app.locals.db.request().execute("usp_get_directors");
-    console.log(result.recordset);
+    // console.log(result.recordset);
     let directors = result.recordset.map((res) => ({
       value: res.director_id,
       label: res.director_name,

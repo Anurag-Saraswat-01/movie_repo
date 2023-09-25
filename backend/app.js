@@ -18,7 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 sql.on("error", (error) => {
-  console.log(error);
+  console.error(error);
 });
 
 const appPool = new sql.ConnectionPool(config);

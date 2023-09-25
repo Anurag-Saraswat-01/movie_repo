@@ -27,16 +27,8 @@ export default {
     };
   },
   computed: {
+    // submit button enabled or disabled
     disabled() {
-      // console.log({
-      //   movie_name: this.movie_name,
-      //   director: this.director,
-      //   release_date: this.release_date,
-      //   rated: this.rated,
-      //   runtime: this.runtime,
-      //   genres: this.genres,
-      //   genre_length: this.genres.length,
-      // });
       let res =
         this.movie_name === "" ||
         this.director === null ||
@@ -180,6 +172,7 @@ export default {
         this.genreOptions.push(genre);
       }
     },
+    // reset all fields
     handleReset() {
       this.movie_name = "";
       this.director_id = null;

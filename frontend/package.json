@@ -2,7 +2,7 @@
   "name": "package.json",
   "version": "0.0.1",
   "description": "Repository for Movies",
-  "productName": "Movie Repo",
+  "productName": "The Movie Critic",
   "author": "Anurag Saraswat <anu01saraswat@gmail.com>",
   "private": true,
   "scripts": {

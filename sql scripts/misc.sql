@@ -39,11 +39,9 @@ select * from Movie_Genre
 select * from Ratings
 order by movie_id
 
-delete from Movie_Genre where movie_id = (
-	select movie_id from Movies where movie_name = 'the shawshank redemption')
-delete from Movies where movie_name = 'the shawshank redemption'
-delete from Directors where director_name = 'nolan'
-delete from Genre where genre_name = 'romance'
+delete from Movie_Genre where movie_id in (
+	select movie_id from Movies where movie_name = 'test')
+delete from Movies where movie_name = 'test'
 
 delete from Movie_Genre
 delete from Ratings

@@ -2,7 +2,7 @@
   <q-header elevated>
     <q-toolbar class="header-toolbar">
       <q-toolbar-title class="header-toolbar-title">
-        <router-link to="/"> MOVIE REPO </router-link>
+        <router-link to="/"> THE MOVIE CRITIC</router-link>
       </q-toolbar-title>
       <q-btn flat to="/" label="Dashboard" icon="home" />
       <template v-if="isLoggedIn">

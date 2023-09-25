@@ -125,7 +125,7 @@ export async function updateMovie(req, res) {
       .query(
         `UPDATE Movies SET ${columnFieldMap[column].col_name} = @value WHERE movie_id = @movie_id`
       );
-    console.log(result);
+    console.log(`${column} updated successfully`);
     res.status(200).json({ message: `${column} updated successfully` });
   } catch (error) {
     console.error(error);

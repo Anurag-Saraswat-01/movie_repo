@@ -1,5 +1,9 @@
 @import "../../css/quasar.variables.scss";
 
+.add-movie-page.success {
+  height: calc(100vh + 2rem);
+}
+
 .form-container {
   background: $dark;
   color: white;

@@ -22,7 +22,11 @@ export default {
   },
   computed: {
     url() {
-      return `http://localhost:3000/${this.movie.file_path}`;
+      if (this.movie.file_path) {
+        return `http://localhost:3000/${this.movie.file_path}`;
+      } else {
+        return "http://localhost:3000/images/placeholder.jpg";
+      }
     },
     genreList() {
       console.log(this.movie.genres.split(", "));

@@ -13,6 +13,7 @@ export default {
     this.getData();
   },
   methods: {
+    // get data for current user from api
     async getData() {
       try {
         let result = await this.$api.get(`user/movies/${this.user.user_id}`);

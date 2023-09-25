@@ -13,6 +13,7 @@ export default defineComponent({
     this.getData();
   },
   methods: {
+    // get data from api
     async getData() {
       try {
         let result = await this.$api.get("movies");

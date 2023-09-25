@@ -47,7 +47,7 @@ export async function updateUserRating(req, res) {
       .input("rating", sql.Int, rating)
       .execute("usp_update_user_rating");
 
-    console.log(result);
+    console.log("Rating updated successfully");
 
     return res.status(200).json({ message: "Rating updated successfully" });
   } catch (error) {

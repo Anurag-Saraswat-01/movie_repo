@@ -1,8 +1,10 @@
 <template>
-  <div class="logout-container">
-    <h1 class="logout-header">Logged out successfully.</h1>
-    <router-link class="login-link" to="/login">Login again?</router-link>
-  </div>
+  <q-page padding>
+    <div class="logout-container">
+      <h1 class="logout-header">Logged out successfully.</h1>
+      <router-link class="login-link" to="/login">Login again?</router-link>
+    </div>
+  </q-page>
 </template>
 
 <script>
