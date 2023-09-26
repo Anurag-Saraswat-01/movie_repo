@@ -7,6 +7,7 @@ import { router as movieRoutes } from "./routes/movies.js";
 import { router as directorRoutes } from "./routes/directors.js";
 import { router as genreRoutes } from "./routes/genres.js";
 import { router as ratingRoutes } from "./routes/ratings.js";
+import paramInjector from "./utils/ParamInjector.mjs";
 
 const app = express();
 
@@ -40,7 +41,15 @@ app.use("/ratings", ratingRoutes);
 async function startApp() {
   try {
     let pool = await appPool.connect();
-    app.locals.db = pool;
+
+    // app.locals.db = pool
+
+    app.locals.query = async (queryString, params = []) => {
+      queryString = paramInjector(queryString, params);
+      let result = await pool.request().query(queryString);
+      return result;
+    };
+
     const PORT = 3000;
     app.listen(PORT, () => {
       console.log(`App running on port ${PORT}`);

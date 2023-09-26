@@ -20,7 +20,7 @@ export default {
   props: {
     id: Number,
     editColumn: String,
-    editValue: String || Number,
+    editValue: String | Number,
   },
   emits: ["hide", "update"],
   async mounted() {

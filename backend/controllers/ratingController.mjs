@@ -4,12 +4,14 @@ import sql from "mssql";
 export async function addRating(req, res) {
   try {
     const { movie_id, user_id, rating } = req.body;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("user_id", sql.Int, user_id)
-      .input("rating", sql.Int, rating)
-      .execute("usp_insert_rating");
+    const queryString =
+      "INSERT INTO Ratings(movie_id, user_id, rating) VALUES(?, ?, ?)";
+
+    let result = await req.app.locals.query(queryString, [
+      movie_id,
+      user_id,
+      rating,
+    ]);
 
     return res.status(201).json({ message: "Rating added" });
   } catch (error) {
@@ -22,14 +24,12 @@ export async function addRating(req, res) {
 export async function getUserRating(req, res) {
   try {
     const { movie_id, user_id } = req.params;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("user_id", sql.Int, user_id)
-      .output("rating", sql.Int)
-      .execute("usp_get_user_rating");
+    const queryString =
+      "SELECT rating FROM Ratings WHERE movie_id = ? AND user_id = ?";
 
-    return res.status(200).json(result.output.rating);
+    let result = await req.app.locals.query(queryString, [movie_id, user_id]);
+
+    return res.status(200).json(result.recordset[0].rating);
   } catch (error) {
     console.error(error);
     return res.status(400).json({ message: "Something went wrong" });
@@ -40,12 +40,14 @@ export async function getUserRating(req, res) {
 export async function updateUserRating(req, res) {
   try {
     const { movie_id, user_id, rating } = req.body;
-    let result = await req.app.locals.db
-      .request()
-      .input("movie_id", sql.Int, movie_id)
-      .input("user_id", sql.Int, user_id)
-      .input("rating", sql.Int, rating)
-      .execute("usp_update_user_rating");
+    const queryString =
+      "UPDATE Ratings SET rating = ? WHERE movie_id = ? AND user_id = ?";
+
+    let result = await req.app.locals.query(queryString, [
+      rating,
+      movie_id,
+      user_id,
+    ]);
 
     console.log("Rating updated successfully");
 

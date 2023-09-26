@@ -1,10 +1,12 @@
-import sql from "mssql";
-
 // get all genres from db
 export async function getGenres(req, res) {
   try {
-    let result = await req.app.locals.db.request().execute("usp_get_genres");
+    const queryString = "SELECT * FROM Genre ORDER BY genre_name";
+
+    let result = await req.app.locals.query(queryString);
+
     // console.log(result.recordset);
+
     let genres = result.recordset.map((res) => ({
       value: res.genre_id,
       label: res.genre_name,
@@ -18,12 +20,13 @@ export async function getGenres(req, res) {
 
 // insert new genre into db
 export async function addNewGenre(req, res) {
-  const { genre_name } = req.body;
   try {
-    let result = await req.app.locals.db
-      .request()
-      .input("genre_name", sql.NVarChar(30), genre_name)
-      .execute("usp_insert_genre");
+    const { genre_name } = req.body;
+    const queryString =
+      "INSERT INTO Genre(genre_name) OUTPUT Inserted.genre_id VALUES(?)";
+
+    let result = await req.app.locals.query(queryString, [genre_name]);
+
     res.status(201).json(result.recordset[0].genre_id);
   } catch (error) {
     console.error(error);

@@ -41,6 +41,7 @@ order by movie_id
 
 delete from Movie_Genre where movie_id in (
 	select movie_id from Movies where movie_name = 'test')
+delete from Ratings where movie_id in (select movie_id from Movies where movie_name = 'test')
 delete from Movies where movie_name = 'test'
 
 delete from Movie_Genre
@@ -101,8 +102,11 @@ alter table movies
 alter column file_path nvarchar(100)
 
 delete from directors where director_name in ('a', 'abc')
+delete from genre where genre_name = 'test'
 
 select * from Movies
 select * from Directors
 select * from Movie_Genre
 select * from Ratings
+select * from Users
+select * from Genre

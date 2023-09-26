@@ -185,6 +185,8 @@ export default {
       this.showAddDialog = false;
       this.addValueMode = null;
       this.addValue = null;
+      this.status = null;
+      this.message = null;
     },
   },
   components: { DatePicker, AddDialog },

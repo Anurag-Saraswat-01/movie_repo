@@ -5,18 +5,15 @@ const saltRounds = 10;
 
 // to register new user
 export async function register(req, res) {
-  const { username, password } = req.body;
-
   try {
+    const { username, password } = req.body;
+    const queryString = "INSERT INTO Users(username, password) VALUES(?, ?)";
+
     // hashing password set by user
     let hash = await bcrypt.hash(password, saltRounds);
 
     // adding user to db
-    let result = await req.app.locals.db
-      .request()
-      .input("username", sql.NVarChar(20), username)
-      .input("password", sql.NVarChar(60), hash)
-      .execute("usp_insert_user");
+    let result = await req.app.locals.query(queryString, [username, hash]);
 
     console.dir(result);
     return res.status(201).json({ message: "Registered successfully" });
@@ -28,20 +25,19 @@ export async function register(req, res) {
 
 // to login
 export async function login(req, res) {
-  const { username, password } = req.body;
-
   try {
+    const { username, password } = req.body;
+    const queryString =
+      "SELECT password, user_id FROM Users WHERE username = ?";
+
     // fetching hash stored in db
-    let result = await req.app.locals.db
-      .request()
-      .input("username", sql.NVarChar(20), username)
-      .output("password", sql.NVarChar(60))
-      .output("user_id", sql.Int)
-      .execute("usp_get_password");
+    let result = await req.app.locals.query(queryString, [username]);
 
     console.dir(result);
-    let hash = result.output.password;
-    let user_id = result.output.user_id;
+    // let hash = result.output.password;
+    // let user_id = result.output.user_id;
+    let hash = result.recordset[0].password;
+    let user_id = result.recordset[0].user_id;
 
     // comparing password and hash
     let passwordMatch = await bcrypt.compare(password, hash);
@@ -66,10 +62,24 @@ export async function login(req, res) {
 export async function getAllMovieDataByUser(req, res) {
   try {
     const { id } = req.params;
-    let result = await req.app.locals.db
-      .request()
-      .input("user_id", sql.Int, id)
-      .execute("usp_get_all_movie_data_by_user");
+
+    const queryString = `SELECT m.movie_id, m.movie_name, m.rated, 
+                        CAST(m.release_date AS nvarchar) AS release_date,
+		                    m.runtime, m.file_path, d.director_name,
+		                    (SELECT ROUND(AVG(ISNULL(CAST(r.rating AS float), 0)), 2)
+		                    FROM Ratings r
+		                    WHERE r.movie_id = m.movie_id) AS avg_rating,
+		                    STRING_AGG(g.genre_name, ', ') AS genres
+                        FROM Movies m
+                        INNER JOIN Directors d ON m.director_id = d.director_id
+                        INNER JOIN Movie_Genre mg ON m.movie_id = mg.movie_id
+                        INNER JOIN Genre g ON g.genre_id = mg.genre_id
+                        WHERE m.user_id = ? 
+                        GROUP BY m.movie_id, m.movie_name, m.rated, m.runtime, m.release_date, 
+                        d.director_name, m.file_path`;
+
+    let result = await req.app.locals.query(queryString, [id]);
+
     return res.status(200).json(result.recordset);
   } catch (error) {
     console.error(error);
