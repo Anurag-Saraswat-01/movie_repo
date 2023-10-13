@@ -1,4 +1,5 @@
-import { add, retrieve } from "../services/genres.mjs";
+import add from "../services/genres/add.mjs";
+import retrieve from "../services/genres/retrieve.mjs";
 
 // get all genres from db
 export async function getGenres(req, res) {

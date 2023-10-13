@@ -1,4 +1,6 @@
-import { add, retrieve, update } from "../services/ratings.mjs";
+import add from "../services/ratings/add.mjs";
+import retrieve from "../services/ratings/retrieve.mjs";
+import update from "../services/ratings/update.mjs";
 
 // insert new rating in db
 export async function addRating(req, res) {

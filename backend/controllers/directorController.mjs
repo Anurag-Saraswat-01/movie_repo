@@ -1,4 +1,5 @@
-import { add, retrieve } from "../services/directors.mjs";
+import add from "../services/directors/add.mjs";
+import retrieve from "../services/directors/retrieve.mjs";
 
 // get all directors from db
 export async function getDirectors(req, res) {

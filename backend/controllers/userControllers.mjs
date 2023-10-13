@@ -1,4 +1,6 @@
-import { retrieve, signin, signup } from "../services/users.mjs";
+import retrieve from "../services/users/retrieve.mjs";
+import signin from "../services/users/signin.mjs";
+import signup from "../services/users/signup.mjs";
 
 // to register new user
 export async function register(req, res) {
@@ -18,7 +20,9 @@ export async function login(req, res) {
   try {
     const { passwordMatch, user_id } = await signin(username, password);
     if (passwordMatch) {
-      return { status: 200, message: "Logged in successfully", user_id };
+      return res
+        .status(200)
+        .json({ message: "Logged in successfully", user_id });
     } else {
       return res
         .status(400)

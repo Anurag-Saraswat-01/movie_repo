@@ -1,10 +1,8 @@
-import {
-  add,
-  retrieve,
-  retrieveSingle,
-  update,
-  updateGenre,
-} from "../services/movies.mjs";
+import add from "../services/movies/add.mjs";
+import retrieve from "../services/movies/retrieve.mjs";
+import retrieveSingle from "../services/movies/retrieveSingle.mjs";
+import update from "../services/movies/update.mjs";
+import updateGenre from "../services/movies/updateGenre.mjs";
 
 // insert new movie into db
 export async function addNewMovie(req, res) {
