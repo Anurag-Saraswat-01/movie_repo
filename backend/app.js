@@ -38,13 +38,15 @@ app.use("/directors", directorRoutes);
 app.use("/genres", genreRoutes);
 app.use("/ratings", ratingRoutes);
 
+let query;
+
 async function startApp() {
   try {
     let pool = await appPool.connect();
 
     // app.locals.db = pool
 
-    app.locals.query = async (queryString, params = []) => {
+    query = async (queryString, params = []) => {
       queryString = paramInjector(queryString, params);
       let result = await pool.request().query(queryString);
       return result;
@@ -60,3 +62,4 @@ async function startApp() {
 }
 
 startApp();
+export { query };
