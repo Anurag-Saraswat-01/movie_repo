@@ -4,49 +4,35 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 
 export async function signup(username, password) {
-  try {
-    const queryString = "INSERT INTO Users(username, password) VALUES(?, ?)";
+  const queryString =
+    "INSERT INTO Users(username, password) OUTPUR Inserted.user_id VALUES(?, ?)";
 
-    // hashing password set by user
-    let hash = await bcrypt.hash(password, saltRounds);
+  // hashing password set by user
+  let hash = await bcrypt.hash(password, saltRounds);
 
-    // adding user to db
-    let result = await query(queryString, [username, hash]);
+  // adding user to db
+  let result = await query(queryString, [username, hash]);
 
-    console.dir(result);
-    return { status: 201, message: "Registered successfully" };
-  } catch (error) {
-    console.error(error);
-    return { status: 400, message: "User already exists" };
-  }
+  const user_id = result?.recordset[0]?.user_id;
+  return user_id;
 }
 export async function signin(username, password) {
-  try {
-    const queryString =
-      "SELECT password, user_id FROM Users WHERE username = ?";
+  const queryString = "SELECT password, user_id FROM Users WHERE username = ?";
 
-    // fetching hash stored in db
-    let result = await query(queryString, [username]);
+  // fetching hash stored in db
+  let result = await query(queryString, [username]);
 
-    console.dir(result);
-    // let hash = result.output.password;
-    // let user_id = result.output.user_id;
-    let hash = result?.recordset[0]?.password;
-    let user_id = result?.recordset[0]?.user_id;
+  console.dir(result);
+  // let hash = result.output.password;
+  // let user_id = result.output.user_id;
+  let hash = result?.recordset[0]?.password;
+  let user_id = result?.recordset[0]?.user_id;
 
-    // comparing password and hash
-    let passwordMatch = await bcrypt.compare(password, hash);
-    console.log(passwordMatch);
+  // comparing password and hash
+  let passwordMatch = await bcrypt.compare(password, hash);
+  console.log(passwordMatch);
 
-    if (passwordMatch) {
-      return { status: 200, message: "Logged in successfully", user_id };
-    } else {
-      return { status: 400, message: "Incorrect username or password" };
-    }
-  } catch (error) {
-    console.error(error);
-    return { status: 400, message: "Something went wrong" };
-  }
+  return { passwordMatch, user_id };
 }
 
 export async function retrieve(id) {

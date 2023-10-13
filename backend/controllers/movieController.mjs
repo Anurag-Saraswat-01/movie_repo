@@ -18,17 +18,22 @@ export async function addNewMovie(req, res) {
     user_id,
   } = JSON.parse(req.body.movie_data);
   // console.log(req.file, JSON.parse(req.body.movie_data));
-  const { status, message } = await add(
-    movie_name,
-    release_date,
-    rated,
-    runtime,
-    director_id,
-    genre_id_list,
-    user_id
-  );
 
-  return res.status(status).json({ message });
+  try {
+    let movie_id = await add(
+      movie_name,
+      release_date,
+      rated,
+      runtime,
+      director_id,
+      genre_id_list,
+      user_id
+    );
+    return res.status(200).json({ message: "Movie added successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }
 
 // get all movie data from db
@@ -60,17 +65,26 @@ export async function updateMovie(req, res) {
   const { movie_id, column } = req.params;
   const { value } = req.body;
 
-  const { status, message } = await update(movie_id, column, value);
-
-  return res.status(status).json({ message });
+  try {
+    await update(movie_id, column, value);
+    return res.status(200).json({ message: `${column} updated successfully` });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }
 
 // update movie genre
 export async function updateMovieGenre(req, res) {
   const { movie_id } = req.params;
   const { value } = req.body;
-
-  const { status, message } = await updateGenre(movie_id, value);
-
-  return res.status(status).json({ message });
+  try {
+    await updateGenre(movie_id, value);
+    return res
+      .status(200)
+      .json({ message: "Movie Genre updated successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }

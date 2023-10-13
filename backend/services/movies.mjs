@@ -11,39 +11,34 @@ export async function add(
   genre_id_list,
   user_id
 ) {
-  try {
-    const filePath = req.file ? generateFilePath(movie_name) : null;
+  const filePath = req.file ? generateFilePath(movie_name) : null;
 
-    const queryString = `INSERT INTO Movies(movie_name, release_date, rated, runtime,
+  const queryString = `INSERT INTO Movies(movie_name, release_date, rated, runtime,
                               director_id, file_path, user_id) 
                               OUTPUT Inserted.movie_id
                               VALUES(?, ?, ?, ?, ?, ?, ?)`;
 
-    let result = await query(queryString, [
-      movie_name,
-      release_date,
-      rated,
-      runtime,
-      director_id,
-      filePath,
-      user_id,
-    ]);
+  let result = await query(queryString, [
+    movie_name,
+    release_date,
+    rated,
+    runtime,
+    director_id,
+    filePath,
+    user_id,
+  ]);
 
-    // console.log(result);
-    const movie_id = result.recordset[0].movie_id;
+  // console.log(result);
+  const movie_id = result?.recordset[0]?.movie_id;
 
-    for (let genre_id of genre_id_list) {
-      await addNewMovieGenre(req, movie_id, genre_id);
-    }
-
-    if (req.file) await downloadPoster(req.file, filePath);
-
-    console.log("Inserted movie", { movie_name });
-    return { status: 201, message: "Movie added successfully" };
-  } catch (error) {
-    console.error(error);
-    return { status: 400, message: "Something went wrong" };
+  for (let genre_id of genre_id_list) {
+    await addNewMovieGenre(req, movie_id, genre_id);
   }
+
+  if (req.file) await downloadPoster(req.file, filePath);
+
+  console.log("Inserted movie", { movie_name });
+  return movie_id;
 }
 
 export async function retrieve() {
@@ -102,25 +97,19 @@ async function addNewMovieGenre(movie_id, genre_id) {
 }
 
 export async function update(movie_id, column, value) {
-  try {
-    const columnFieldMap = {
-      movie_name: "movie_name",
-      director_name: "director_id",
-      release_date: "release_date",
-      rated: "rated",
-      runtime: "runtime",
-    };
+  const columnFieldMap = {
+    movie_name: "movie_name",
+    director_name: "director_id",
+    release_date: "release_date",
+    rated: "rated",
+    runtime: "runtime",
+  };
 
-    const queryString = `UPDATE Movies SET ${columnFieldMap[column]} = ? WHERE movie_id = ?`;
+  const queryString = `UPDATE Movies SET ${columnFieldMap[column]} = ? WHERE movie_id = ?`;
 
-    let result = await query(queryString, [value, movie_id]);
+  let result = await query(queryString, [value, movie_id]);
 
-    console.log(`${column} updated successfully`);
-    return { status: 200, message: `${column} updated successfully` };
-  } catch (error) {
-    console.error(error);
-    return { status: 400, message: "Something went wrong" };
-  }
+  console.log(`${column} updated successfully`);
 }
 
 // delete new movie genre pair into db
@@ -138,18 +127,11 @@ async function deleteMovieGenre(movie_id, genre_id) {
 }
 
 export async function updateGenre(movie_id, value) {
-  try {
-    for (let genre_id of value.del_genre_id_list) {
-      await deleteMovieGenre(req, movie_id, genre_id);
-    }
+  for (let genre_id of value.del_genre_id_list) {
+    await deleteMovieGenre(req, movie_id, genre_id);
+  }
 
-    for (let genre_id of value.add_genre_id_list) {
-      await addNewMovieGenre(req, movie_id, genre_id);
-    }
-
-    return { status: 200, message: "Movie Genre updated successfully" };
-  } catch (error) {
-    console.error(error);
-    return { status: 400, message: "Something went wrong" };
+  for (let genre_id of value.add_genre_id_list) {
+    await addNewMovieGenre(req, movie_id, genre_id);
   }
 }

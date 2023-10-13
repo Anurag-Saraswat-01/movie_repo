@@ -3,9 +3,13 @@ import { add, retrieve, update } from "../services/ratings.mjs";
 // insert new rating in db
 export async function addRating(req, res) {
   const { movie_id, user_id, rating } = req.body;
-  const { status, message } = await add(movie_id, user_id, rating);
-
-  return res.status(status).json({ message });
+  try {
+    let rating_id = await add(movie_id, user_id, rating);
+    return res.status(201).json({ message: "Rating added" });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }
 
 // get user rating from db
@@ -23,6 +27,11 @@ export async function getUserRating(req, res) {
 // update user rating from db
 export async function updateUserRating(req, res) {
   const { movie_id, user_id, rating } = req.body;
-  const { status, message } = await update(movie_id, user_id, rating);
-  return res.status(status).json({ message });
+  try {
+    await update(movie_id, user_id, rating);
+    return res.status(200).json({ message: "Rating updated successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }

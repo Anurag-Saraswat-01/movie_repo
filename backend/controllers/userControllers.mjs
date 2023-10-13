@@ -3,15 +3,31 @@ import { retrieve, signin, signup } from "../services/users.mjs";
 // to register new user
 export async function register(req, res) {
   const { username, password } = req.body;
-  const { status, message } = await signup(username, password);
-  return res.status(status).json({ message });
+  try {
+    const user_id = await signup(username, password);
+    return res.status(201).json({ message: "Registered successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "User already exists" });
+  }
 }
 
 // to login
 export async function login(req, res) {
   const { username, password } = req.body;
-  const { status, message, user_id } = await signin(username, password);
-  return res.status(status).json({ message, user_id });
+  try {
+    const { passwordMatch, user_id } = await signin(username, password);
+    if (passwordMatch) {
+      return { status: 200, message: "Logged in successfully", user_id };
+    } else {
+      return res
+        .status(400)
+        .json({ message: "Incorrect username or password" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Something went wrong" });
+  }
 }
 
 // get all movie data by user from db
