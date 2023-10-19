@@ -1,11 +1,11 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 import bcrypt from "bcrypt";
 
 const saltRounds = 10;
 
 export default async function signup(username, password) {
   const queryString =
-    "INSERT INTO Users(username, password) OUTPUR Inserted.user_id VALUES(?, ?)";
+    "INSERT INTO Users(username, password) OUTPUT Inserted.user_id VALUES(?, ?)";
 
   // hashing password set by user
   let hash = await bcrypt.hash(password, saltRounds);

@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 
 export default async function add(movie_id, user_id, rating) {
   const queryString =

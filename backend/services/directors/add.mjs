@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 
 export default async function add(director_name) {
   const queryString =

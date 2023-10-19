@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 
 export default async function retrieve(id) {
   const queryString = `SELECT m.movie_id, m.movie_name, m.rated, 

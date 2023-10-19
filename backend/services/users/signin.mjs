@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 import bcrypt from "bcrypt";
 
 export default async function signin(username, password) {
@@ -7,7 +7,7 @@ export default async function signin(username, password) {
   // fetching hash stored in db
   let result = await query(queryString, [username]);
 
-  console.dir(result);
+  // console.dir(result);
   // let hash = result.output.password;
   // let user_id = result.output.user_id;
   let hash = result?.recordset[0]?.password;
@@ -15,7 +15,7 @@ export default async function signin(username, password) {
 
   // comparing password and hash
   let passwordMatch = await bcrypt.compare(password, hash);
-  console.log(passwordMatch);
+  // console.log(passwordMatch);
 
   return { passwordMatch, user_id };
 }

@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 
 export default async function retrieve() {
   const queryString = "SELECT * FROM Genre ORDER BY genre_name";

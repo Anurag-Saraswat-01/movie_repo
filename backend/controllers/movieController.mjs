@@ -25,7 +25,8 @@ export async function addNewMovie(req, res) {
       runtime,
       director_id,
       genre_id_list,
-      user_id
+      user_id,
+      req.file
     );
     return res.status(200).json({ message: "Movie added successfully" });
   } catch (error) {

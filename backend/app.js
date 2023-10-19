@@ -7,7 +7,6 @@ import { router as movieRoutes } from "./routes/movies.js";
 import { router as directorRoutes } from "./routes/directors.js";
 import { router as genreRoutes } from "./routes/genres.js";
 import { router as ratingRoutes } from "./routes/ratings.js";
-import paramInjector from "./utils/ParamInjector.mjs";
 
 const app = express();
 
@@ -23,6 +22,7 @@ sql.on("error", (error) => {
 });
 
 const appPool = new sql.ConnectionPool(config);
+export const pool = await appPool.connect();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -38,28 +38,7 @@ app.use("/directors", directorRoutes);
 app.use("/genres", genreRoutes);
 app.use("/ratings", ratingRoutes);
 
-let query;
-
-async function startApp() {
-  try {
-    let pool = await appPool.connect();
-
-    // app.locals.db = pool
-
-    query = async (queryString, params = []) => {
-      queryString = paramInjector(queryString, params);
-      let result = await pool.request().query(queryString);
-      return result;
-    };
-
-    const PORT = 3000;
-    app.listen(PORT, () => {
-      console.log(`App running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("Error creating connection pool", error);
-  }
-}
-
-startApp();
-export { query };
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}`);
+});

@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 
 export default async function update(movie_id, column, value) {
   const columnFieldMap = {

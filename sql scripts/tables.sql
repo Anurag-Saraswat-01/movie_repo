@@ -7,7 +7,6 @@ director_name nvarchar(30) not null)
 CREATE TABLE Movies (
 movie_id int not null identity(1,1) primary key,
 movie_name nvarchar(100) not null,
---[year] int not null,
 file_path nvarchar(100),
 release_date date,
 rated nvarchar(5),

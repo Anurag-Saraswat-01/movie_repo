@@ -1,4 +1,4 @@
-import { query } from "../../app.js";
+import query from "../../query.mjs";
 import downloadPoster from "../../utils/DownloadPoster.mjs";
 import generateFilePath from "../../utils/GenerateFilePath.mjs";
 import { addNewMovieGenre } from "./addNewMovieGenre.mjs";
@@ -10,9 +10,10 @@ export default async function add(
   runtime,
   director_id,
   genre_id_list,
-  user_id
+  user_id,
+  file
 ) {
-  const filePath = req.file ? generateFilePath(movie_name) : null;
+  const filePath = file ? generateFilePath(movie_name) : null;
 
   const queryString = `INSERT INTO Movies(movie_name, release_date, rated, runtime,
                                 director_id, file_path, user_id) 
@@ -32,11 +33,12 @@ export default async function add(
   // console.log(result);
   const movie_id = result?.recordset[0]?.movie_id;
 
-  for (let genre_id of genre_id_list) {
-    await addNewMovieGenre(req, movie_id, genre_id);
-  }
+  if (genre_id_list)
+    for (let genre_id of genre_id_list) {
+      await addNewMovieGenre(movie_id, genre_id);
+    }
 
-  if (req.file) await downloadPoster(req.file, filePath);
+  if (file) await downloadPoster(file, filePath);
 
   console.log("Inserted movie", { movie_name });
   return movie_id;
